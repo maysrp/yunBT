@@ -1,4 +1,8 @@
 # YunBT
+
+
+##安装
+
 ### Aria2 安装:
 
 Debian 8系统 apt-get 安装
@@ -42,9 +46,9 @@ apt-get install -y screen
 screen -dmS aria2 aria2c --enable-rpc --rpc-listen-all=true --rpc-allow-origin-all -c 
 ```
 
-## yunbt配置服务 
+### yunbt配置服务 
 
-### 数据库
+#### 数据库
 yunbt.sql导入数据库
 
 /Bt/Conf/config.php 数据库配置
@@ -57,10 +61,39 @@ yunbt.sql导入数据库
 
 /Bt/Runtime 777
 
+### 刷新设置
+
+Debian
+
+crontab -e
+
+```
+*/1 * * * * curl http://your_domain/index.php/Ondo/curl
+```
+
+## 使用
+
+### 用户面板
+
+
+
+### 管理面板
 LNMP下需要pathinfo的支持。 
 
 默认管理员:
 
 admin
 
-loc123456
+a123456
+
+管理面板:
+
+http://your_domain/index.php/Admin
+
+
+## 问题/注意
+
+1. 分享内容暂时管理员无法管理
+2. 管理员无法群聊(可以设置一个admin的用户)
+3. 用户与管理员分离，用户名可以为admin，需要管理员创建一个admin的用户。
+4. 不会对此大改。[下版本将基于TP5的版本]
