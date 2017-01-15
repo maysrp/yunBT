@@ -24,12 +24,12 @@ mkdir /root/.aria2
 保存到刚刚的目录上 
 
 ```
-wget http://webdir.cc/aria2.conf /root/.aria2/ 
+wget http://webdir.cc/aria2.conf /root/.aria2/aria2.conf
 ```
 
 下载http://webdir.cc/dht.dat dht.dat 到/root/.aria2/ 
 ```
-wget http://webdir.cc/dht.dat /root/.aria2/ 
+wget http://webdir.cc/dht.dat /root/.aria2/dht.dat
 ```
 执行命令: 
 ```
