@@ -78,6 +78,7 @@ crontab -e
 
 
 ### 管理面板
+Apache
 LNMP下需要pathinfo的支持。 
 
 默认管理员:
