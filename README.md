@@ -63,7 +63,7 @@ yunbt.sql导入数据库
 
 ### 刷新设置
 
-Debian
+Debian下
 
 crontab -e
 
@@ -73,15 +73,15 @@ crontab -e
 
 ## 使用
 
-1.离线下载支持BT种子，Magnet链接以特征码等下载
+1. 离线下载支持BT种子，Magnet链接以特征码等下载
 
-2.可以支持的在线查看的文件:
+2. 可以支持的在线查看的文件:
 视频：mp4，webm，ogg；
 音频：mp3；
 图片：jpg，png，gif；
 文件：pdf text html；
 
-3.已经开启邀请码，管理员可以分配账户下载量
+3. 已经开启邀请码，管理员可以分配账户下载量
 
 4. 默认文件最大不超过10GB，当单个文件不超过６小时下载时间。
 
@@ -91,13 +91,16 @@ crontab -e
 
 ### 管理面板
 Apache
-LNMP下需要pathinfo的支持。 
+
+若LNMP下需要pathinfo的支持。 
 
 默认管理员:
 
+```
 admin
 
 a123456
+```
 
 管理面板:
 
