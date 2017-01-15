@@ -1,0 +1,67 @@
+<div class="row" style="margin-top: 100px;background-color: #FFFFFF;border-radius: 10px;padding: 20px;">
+	<div class="row">
+		<span class="col-md-6"><h2> 账户信息 <small ><a href="/index.php/Admin">返回</a></small></h2></span><span class="col-md-6 text-right"><button class="btn btn-success" data-toggle="modal" data-target=".add_user">添加用户</button></span>
+	</div>
+	<table class="table">
+		<tr>
+			<th width="20%">用户名</th>
+			<th width="25%">邮箱</th>
+			
+			<th width="20%">加入时间</th>
+			<th width="10%">任务</th>
+			<th width="8%">
+		<select class="form-control" id="level">
+			<option value="ALL">ALL</option>
+  			<option value="LV1">LV1</option>
+  			<option value="LV2">LV2</option>
+  			<option value="LV3">LV3</option>
+  			<option value="LV4">LV4</option>
+		</select>
+			</th>
+			<th width="10%">编辑</th>
+		</tr>
+		<volist name="user" id="vo">
+			<tr class="LV{$vo['lv']} rem">
+				<td><a href="/index.php/Admin/user_e/uid/{$vo['uid']}"> <span class="glyphicon glyphicon-user"> </span>{$vo['name']}</a></td>
+				<td>{$vo['email']}</td>
+				
+				<td>{$vo['join_time']|date="Y/m/d H:i",###}</td>
+				<td>{$vo['active']}</td>
+				<td>LV{$vo['lv']}</td>
+				<td><a href="/index.php/Admin/user_e/uid/{$vo['uid']}"><span class="glyphicon glyphicon-pencil"></span></a>|<a class="text-danger" title="删除用户！不可逆操作！" href="/index.php/Admin/del_uid/uid/{$vo['uid']}"><span class="glyphicon glyphicon-remove"></span></a></td>
+
+			</tr>
+		</volist>
+	</table>
+	<p class="row text-center">{$page}</p>
+</div>
+<div class="modal fade add_user" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    	<div class="modal-header"><h3>添加用户</h3></div>
+    	<div class="modal-body">
+    		<form method="post" action="/index.php/Admin/add_user">
+    			<input type="text" name="name" class="form-control" placeholder="用户名">
+    			<br>
+    			<input type="password" name="pass" class="form-control" placeholder="密码">
+    			<br>
+    			<input type="email" name="email" class="form-control" placeholder="邮箱">
+    			<br>
+    			<input type="submit" name="sub" value="添加" class="btn btn-success">
+    		</form>
+    	</div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	$("#level").change(function(){
+		var lv=$(this).val();
+		if(lv=="ALL"){
+			$(".rem").removeClass("hide");
+		}else{
+			$(".rem").addClass("hide");
+			$("."+lv).removeClass("hide");
+		}
+	})
+	$("title").text("用户列表");
+</script>

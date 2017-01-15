@@ -1,0 +1,112 @@
+<div class="row" style="margin-top: 100px;background-color: #FFFFFF;border-radius: 10px;padding: 20px;">
+	<div class="row">
+		<span class="col-md-6"><h2>邀请码列表<small><a href="/index.php/Admin">返回</a></small></h2></span>
+		<div class="col-md-3 col-md-offset-3 text-right">
+			<div class="input-group">
+				<span class="input-group-addon">
+					邀请码
+				</span>
+				<input type="text" name="yqm_code" id="yqm_num" class="form-control" value="5">
+				<div class="input-group-btn">
+					<button id="yqm_create" class="btn btn-default">生成</button>
+				</div>
+				
+			</div>
+
+
+		</div>
+	</div>
+	<div class="row">
+		<table class="table">
+			<tr>
+				<th>邀请码</th>
+				<th>生成时间</th>
+				<th>使用者</th>
+				<th>使用者</th>
+				<th>
+		<select class="form-control" id="level">
+			<option value="ALL">所有</option>
+  			<option value="danger">已使用</option>
+  			<option value="success">未使用</option>
+  			
+		</select>
+				</th>
+				
+			</tr>
+			<volist name="code" id="vo">
+				<tr class="code_tr
+					<if condition="$vo['uid']">
+						danger
+					<else/>
+						success
+					</if>
+				">
+					<td>{$vo['code']}</td>
+					<td>{$vo['time']|date="Y-m-d H:i",###}</td>
+					<td>
+						<if condition="$vo['uid']">
+							<a href=/index.php/Admin/user_e/uid/{$vo['uid']}>{$vo['uid']|uid_name}</a>
+						<else/>
+							
+						</if>
+					</td>
+					<td>
+						<if condition="$vo['uid']">
+							{$vo['use_time']|date="Y-m-d H:i",###}
+						<else/>
+							
+						</if>
+					</td>
+					<td>
+						
+					</td>
+				</tr>
+			</volist>
+		</table>
+	</div>
+	<p class="row text-center">{$page}</p>
+</div>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      	<h3>邀请码</h3>
+      </div>
+      <div class="modal-body">
+      	
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+	$("#level").change(function(){
+		var lv=$(this).val();
+		if(lv=="ALL"){
+			$(".code_tr").removeClass("hide");
+		}else{
+			$(".code_tr").addClass("hide");
+			$("."+lv).removeClass("hide");
+		}
+	})
+	$("title").text("邀请码列表");
+	$("#yqm_create").click(function(){
+		var num=$("#yqm_num").val();
+		$.get("/index.php/Admin/create_code/num/"+num,function(data){
+			$(".modal-body").html("<p>"+sucu(data)+"</p>");
+			$('.bs-example-modal-sm').modal('show')
+		});
+	})
+	function sucu(data){
+		var p="";
+		for(x in data){
+			p=p+"<p>"+data[x]+"</p>";
+		}
+		return p;
+	}
+</script>

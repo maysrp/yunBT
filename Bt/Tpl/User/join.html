@@ -1,0 +1,77 @@
+<div class="row">
+	<div class="row">
+	<form action="" method="post">
+	<span class="row">
+		<span class="col-md-4 col-md-offset-4 text-center">
+			<h3 class="text-success">用户注册</h3>
+		</span>
+	</span>
+	<span class="row">
+		<span class="col-md-4 col-md-offset-4" >
+			<input type="text" name="code" class="form-control" placeholder="邀请码">
+		</span>
+	</span>
+	<span class="row">
+		<span class="col-md-4 col-md-offset-4" >
+			<input type="email" name="email" class="form-control" placeholder="xxxxxx@mail.com">
+		</span>
+	</span>
+	<span class="row">
+		<span class="col-md-4 col-md-offset-4" >
+			<input type="text" name="name" class="form-control" placeholder="用户名">
+		</span>
+	</span>
+	<span class="row">
+		<span class="col-md-4 col-md-offset-4">
+			<input type="password" name="pass" class="form-control" placeholder="密码">
+		</span>
+	</span>
+	<span class="row">
+		<span class="col-md-4 col-md-offset-4">
+			<span class="col-md-4 text-left">
+				<img src="/index.php/Public/verify" class="img-rounded" >
+			</span>
+			<span class="col-md-8 text-left">
+				<input type="text" name="verify" class="form-control">
+			</span>	
+		</span>
+	</span>
+	<span class="row">
+		<span class="col-md-4 col-md-offset-4 text-center">
+		<div class="checkbox">
+  			<label>
+    			<input type="checkbox" value="t" id="fwtk" name="checkbox" checked>
+  			</label>
+  			<span data-toggle="modal" data-target=".bs-example-modal-lg">《服务条款》</span>
+		</div>
+		</span>
+	</span>
+	<span class="row">
+		<span class="col-md-4 col-md-offset-4 text-center" >
+			<a href="/index.php/User/login" class="btn btn-primary">登入</a>
+			<input type="submit" name="sub" class="btn btn-success" value="注册" id="join_button">
+		</span>
+	</span>
+	</form>
+	</div>
+</div>
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+      	<h3>服务条款</h3>
+      </div>
+      <div class="modal-body">
+      <div>
+      {$site['fw']}
+      </div>
+      </div>
+       <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	
+</script>

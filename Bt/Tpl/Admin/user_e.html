@@ -1,0 +1,172 @@
+<div class="row" style="margin-top: 100px;background-color: #FFFFFF;border-radius: 10px;padding: 20px;">
+	<span class="row">
+		<h2> 账户信息 <small ><a href="/index.php/Admin/user">返回用户列表</a></small></h2>
+	</span>
+	<span class="row">
+		<h3>{$user['name']}</h3>
+	</span>
+	<hr>
+	<div class="col-md-4">
+		<form method="post" action="">
+			<input type="text" name="uid" class="hide" value="{$user['uid']}">
+			<div class="row" style="margin-top: 10px;">
+				<div class="input-group">
+				<div class="input-group-addon">
+					账户等级
+				</div>
+				<select class="form-control" name="lv" id="or_lv">
+					<option value="1">LV1 可下载任务量3</option>
+					<option value="2">LV2 可下载任务量15</option>
+					<option value="3">LV3 可下载任务量100</option>
+					<option value="4">LV4 可下载任务量1000</option>	
+				</select>
+			</div>
+			</div>
+			<div class="row" style="margin-top: 10px;">
+				<div class="input-group">
+					<div class="input-group-addon">
+						新密码
+					</div>
+					<input type="text" name="pass" class="form-control" placeholder="密码设置时请大于3位">
+				</div>
+			</div>
+			<div class="row" style="margin-top: 10px;">
+				<button class="btn btn-info">提交</button>
+
+				<a href="/index.php/Admin/del_uid/uid/{$user['uid']}" class="btn btn-danger" title="删除用户为不可逆操作！">删除</a>
+
+				<br>
+
+				<h2><span class="glyphicon glyphicon-comment" data-toggle="modal" data-target=".talk"></span></h2>
+			</div>
+		</form>
+	</div>
+	<div class="col-md-6 col-md-offset-2">
+		<div class="row">
+			<h4>邮箱:{$user['email']}</h4>
+			<br>
+			<h4>注册时间:{$user['join_time']|date="Y/m/d H:i",###}</h4>
+			<br>
+			<h4>注册IP:{$user['join_ip']}</h4>
+			<br>
+			<h4>账户等级:LV<span id="lv" value="{$user['lv']}">{$user['lv']}</span></h4>
+			<br>
+			<h4>使用任务量:{$user['active']}</h4>
+			<br>
+			<h4>总任务量:{$user['max_active']}</h4>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<table class="table table-striped">
+			<tr>
+				<th>文件名</th>
+				<TH>完成率</TH>
+				<th>总大小</th>
+				<th>速度</th>
+				<th>状态</th>
+				<th>操作</th>
+			</tr>
+		<volist name="oid_user" id="vo">
+			<tr>
+				<td>{$vo['name']}</td>
+				<php>
+					$prpr=$vo['complete']/$vo['total']*100;
+					$prpr=round($prpr,2);
+
+				</php>
+				<td>{$prpr}%</td>
+				<td>{$vo['total']|thesize}</td>
+				<td>{$vo['speed']|thesize}/S</td>
+				<td>{$vo['status']}</td>
+				<td><a href="/index.php/Admin/dir/oid/{$vo['oid']}"><span class="glyphicon glyphicon-folder-open"></span></a>
+					<a href="/index.php/Ondo/del/oid/{$vo['oid']}" class="text-danger"><span class="glyphicon glyphicon-trash"></span></a>
+				</td>
+			</tr>
+		</volist>
+
+	</table>
+	</div>
+</div>
+
+<div id="uid" value="{$user['uid']}"></div>
+
+<div class="modal fade talk" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    	<div class="modal-header">
+    		与<span id="name">{$user['name']}</span>情况交流
+    	</div>
+      	<div class="modal-body">
+      		<div  id="talkbox" style="height: 400px;overflow-y: scroll;">
+
+
+      		</div>
+      		<hr>
+      			<textarea class="form-control" id="talktext">
+      				
+      			</textarea>
+      		
+      	</div>
+      	<div class="modal-footer">
+      		<button class="btn btn-success" id="talkbutton">刷新</button>
+      		
+      	</div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	var lv=$("#lv").attr("value");
+	$("#or_lv").val(lv);
+	$("title").text("用户编辑");
+
+
+	$(".talk").on('show.bs.modal',function(e){
+		$("#talkbutton").click();
+	})
+	$("#uri").click(function(){
+		$("#bt").click();
+	})
+	$("#bt").change(function(){
+		var fn=this.files[0]['name'];
+		$("#uri").val(fn);
+	})
+	var uid=$("#uid").attr("value");
+	$("#talkbutton").click(function(){
+		var talktext=$("#talktext").val();
+		$("#talkbox").html("<img src=/img/p.gif><br><h2>刷新中......</h2>");
+		$.ajax({
+			type:"POST",
+			url:"/index.php/Admin/talk_uid",
+			data:{talk:talktext,uid:uid},
+			success:function(data){
+				re(data);
+			}
+
+		})
+		
+		
+	})
+	function re(data){
+		$("#talkbox").html("");
+		for(x in data){
+			if(data[x]['uid']=="管理员"){
+				var text="<p ><p >管理员:<b class=\"text-danger\">"+data[x]['text']+"</b></p><p class=\"text-right\">"+get_time(data[x]['time'])+" </p> </p><hr>";
+			}else{
+				var text="<p ><p >用户:<b class=\"text-info\">"+data[x]['text']+"</p></b><p class=\"text-right\">"+get_time(data[x]['time'])+" </p> </p><hr>";
+			}
+			$("#talkbox").append(text);
+			$("#talktext").val("");
+			$('#talkbox').scrollTop( $('#talkbox')[0].scrollHeight );
+			
+		}
+		
+	}
+function get_time(nS) {     
+    return new Date(parseInt(nS) * 1000).toLocaleString().substr(0,17)
+} 
+
+
+
+</script>
