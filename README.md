@@ -48,6 +48,9 @@ screen -dmS aria2 aria2c --enable-rpc --rpc-listen-all=true --rpc-allow-origin-a
 
 ### yunbt配置服务 
 
+PHP>5.3
+
+
 #### 数据库
 yunbt.sql导入数据库
 
