@@ -43,6 +43,44 @@ screen -dmS aria2 aria2c --enable-rpc --rpc-listen-all=true --rpc-allow-origin-a
 #### yunBT
 
 
+#####Database
+Create database yunbt
+
+import yunbt.sql
+
+database config:
+/Bt/Conf/config.php
+
+
+#####Website directory right
+
+/uploads 777
+
+/download 777
+
+/Bt/Runtime 777
+
+
+#####crontab
+
+Debian
+
+```
+crontab -e
+
+```
+
+```
+*/1 * * * * curl http://your_domain/index.php/Ondo/curl
+```
+
+
+```
+ define("DO_SIZE",10);//max download file size;  
+```
+10 => 10GB
+
+
 
 
 
