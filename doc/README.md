@@ -74,7 +74,7 @@ crontab -e
 */1 * * * * curl http://your_domain/index.php/Ondo/curl
 ```
 
-
+##### Max download
 ```
  define("DO_SIZE",10);//max download file size;  
 ```
