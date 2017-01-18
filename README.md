@@ -50,6 +50,12 @@ screen -dmS aria2 aria2c --enable-rpc --rpc-listen-all=true --rpc-allow-origin-a
 
 PHP>5.3
 
+入口文件 index.php
+
+`
+define("DO_SIZE",10);//设定下载限制 10为10GB，超过10GB任务直接删除
+`
+
 
 #### 数据库
 yunbt.sql导入数据库
