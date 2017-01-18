@@ -51,7 +51,7 @@
 	
 			$info=$inf['result'];
 			foreach ($info as $key => $value) {
-				if($value['totalLength']>10*pow(2, 30)){
+				if($value['totalLength']>DO_SIZE*pow(2, 30)){
 					$this->Aria2->remove($value['gid']);//超过10GB任务删除
 					$value['status']="REMOVE";
 				}
