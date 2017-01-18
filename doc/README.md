@@ -42,6 +42,7 @@ screen -dmS aria2 aria2c --enable-rpc --rpc-listen-all=true --rpc-allow-origin-a
 
 #### yunBT
 
+5.3< PHP < 5.6
 
 #####Database
 Create database yunbt
@@ -52,7 +53,9 @@ database config:
 /Bt/Conf/config.php
 
 
-#####Website directory right
+##### Directory 
+
+website directory right
 
 /uploads 777
 
@@ -61,28 +64,27 @@ database config:
 /Bt/Runtime 777
 
 
-#####crontab
+##### Refresh task
 
-Debian
+Debian crontab
 
 ```
 crontab -e
 
 ```
 
+Add a record
 ```
 */1 * * * * curl http://your_domain/index.php/Ondo/curl
 ```
 
-##### Max download
+##### Download setting
 /index.php
 ```
  define("DO_SIZE",10);//max download file size;  
 ```
 10 => 10GB
 
-
-
-
+If the file is greater than 10GB will be deleted
 
 
