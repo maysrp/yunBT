@@ -75,6 +75,7 @@ crontab -e
 ```
 
 ##### Max download
+/index.php
 ```
  define("DO_SIZE",10);//max download file size;  
 ```
