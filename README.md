@@ -128,4 +128,5 @@ http://your_domain/index.php/Admin
 ### 一键安装
 
 https://www.miao8.top/linuxshell/9.html
-1.不是本人写的，不对其中负责。
+
+1. 不是本人写的，不对其中负责。
