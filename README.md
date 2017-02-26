@@ -114,7 +114,10 @@ a123456
 管理面板:
 
 http://your_domain/index.php/Admin
+## 统计添加
+/Bt/Tpl/Public/index.html
 
+在该文件中添加统计代码。
 
 ## 问题/注意
 
@@ -123,7 +126,6 @@ http://your_domain/index.php/Admin
 3. 用户与管理员分离，用户名可以为admin，需要管理员创建一个admin的用户。
 4. 不会对此大改。[下版本将基于TP5的版本]
 5. 代码很乱，见谅
-
 
 ### 一键安装
 
