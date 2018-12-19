@@ -103,13 +103,19 @@ server
 密码a123456  
 数据库导入yunbt.sql  
 
+数据库配置 data/conf/database.php
+
 ### 管理员
 用户名 admin  
 密码 a123456  
 
-数据库配置 data/conf/database.php
+### cron
 
+添加定时任务  
+`crontab -e`
 
+`*/1 * * * * curl http://yunbt.w4.pw/portal/cron/download`  
+请替换其中yunbt.w4.pw 为你自己的域名
 
 ## 未来计划
 1. 分享功能
