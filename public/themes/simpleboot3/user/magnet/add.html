@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$user_login}  - 我的下载</title>
+<meta name="keywords" content=""/>
+<meta name="description" content="">
+<include file="public@head"/>
+</head>
+
+<body class="body-white" id="top">
+<include file="public@nav" />
+
+	<div class="container tc-main">
+		<div class="row">
+			<div class="col-md-3">
+				<include file="public@usernav" />
+			</div>
+			<div class="col-md-9">
+				<div class="tabs">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-star"></i> 添加下载</a></li>
+                    </ul>
+					<div class="tab-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>当前剩余下载量 {:my_last()} <small>已经使用 {:my_used()}</small></h3>
+                            </div>
+                        </div>
+						<div class="tab-pane active" id="one">
+                            <form method="post" action="{:url('user/magnet/addone_xo')}">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="链接" name="magnet">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-info">提交</button>
+                                    </div>
+                                </div>
+                            </form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<include file="public@footer" />
+	</div>
+<!-- /container -->
+<include file="public@scripts" />
+</body>
+</html>

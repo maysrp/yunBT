@@ -1,0 +1,59 @@
+<include file='public@header'/>
+</header>
+<body>
+    <div class="container">
+        <div class="row">
+            <h2>{$title}</h2>
+        </div>
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <th>文件名</th>
+                    <th>链接</th>
+                    <th>文件位置</th>
+                    <th>文件体积</th>
+                    <th>状态</th>
+                    <th>下载者</th>
+                    <th>提交量</th>
+                    <th>操作</th>
+                </tr>
+                <volist name='list' id="vo">
+                    <tr class="<if condition='$vo.udel gt 0'>text-muted</if>">
+                        <td>
+                            <p title='系统获取首个文件或文件夹'>{$vo.name}</p>
+                            <p class='text-info' title='用户命名'>{$vo.uname}</p>
+                        </td>
+                        <td>
+                            <a title='{$vo.magnet}' href='{$vo.magnet}'>Link</a>
+
+                            <if condition='$vo.udel gt 0'>
+                                <a title='恢复用户内容' href='{:url('admin/magnet/unudel',['mid'=>$vo.mid])}'>UNUDEL</a>                                
+                            <else/>
+                                <a title='删除用户内容' href='{:url('admin/magnet/udel',['mid'=>$vo.mid])}'>UDEL</a>    
+                            </if>
+                        </td>
+                        <td><a href="{:url('admin/magnet/open_dir',['mid'=>$vo.mid])}"><span class='glyphicon glyphicon-folder-close' title='{$vo.dir|file_dir}'></span></a></td>
+                        <td>{$vo.total|fsize}</td>
+                        <td>
+                            {$vo.mid|mid_status}
+                        </td>
+                        <td>
+                            {$vo.uid|uid_name}
+                        </td>
+                        <td>
+                            {$vo.mid|mid_count}
+                        </td>
+                        <td>
+                            <a class="text-danger" href='{:url('admin/magnet/del_it',['mid'=>$vo.mid])}'><span class="glyphicon glyphicon-remove" title="删除文件"></span></a>
+                        </td>
+                    </tr>
+                </volist>
+            </table>
+        </div>
+        <div class="row text-center list-inline">
+            {$list->render()}
+        </div>
+
+    </div>
+
+</body>

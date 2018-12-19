@@ -1,0 +1,27 @@
+<include file='public@header'/>
+</header>
+<body>
+    <div class="container">
+        <div class='row' style='margin-top:100px;'>
+            <div class='col-md-6 col-md-offset-3'>
+                <div class='panel panel-info'>
+                    <div class='panel-heading'><h3>下载限制设置</h3></div>
+                    <div class='panel-body'>
+                        <h4><small>最大下载文件</small>{$info.size}GB</4>
+                        <form class='form' method='post'>
+                            <div class='input-group'>
+                                <input type='number' name='size' class='form-control'/>
+                                <div class='input-group-addon'>
+                                   GB 
+                                </div>
+                                <div class='input-group-btn'><button class='btn btn-primary'>修改</button></div>
+                            </div>
+                        </form>
+                        <h4><small>空闲:</small>{$free|fsize}<small>/总容量:</small>{$xtotal|fsize}</h4>
+                        <p class='alert alert-danger'>设置必须为正整数！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

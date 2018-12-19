@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$user_login}  - 我的下载</title>
+<meta name="keywords" content=""/>
+<meta name="description" content="">
+<include file="public@head"/>
+</head>
+
+<body class="body-white" id="top">
+<include file="public@nav" />
+
+	<div class="container tc-main">
+		<div class="row">
+			<div class="col-md-3">
+				<include file="public@usernav" />
+			</div>
+			<div class="col-md-9">
+				<div class="tabs">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-star"></i> 我的下载</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="one">
+							<br>
+							<table class="table table-bordered table-striped table-hover">
+								<thead>
+									<tr>
+										<th>名称</th>
+										<th>链接</th>
+										<th>状态</th>
+										<th>时间</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<foreach name="list" item="vo">
+									<tr>
+										<td>
+											<span class='glyphicon glyphicon-pencil text-info' onClick='addmodel({$vo.mid})' data-toggle="modal" data-target=".bs-example-modal"></span>
+											<span class='name{$vo.mid}'>
+												<php>
+													echo $filename=$vo['uname']?$vo['uname']:$vo['name'];
+												</php>
+											</span>
+										</td>
+										<td>
+											<a href='{$vo.magnet}'>Link</a>
+											
+										</td>
+										<td>
+                                            {$vo.total|fsize} {$vo.mid|mid_status}
+                                        </td>
+                                        <td>{$vo.addtime|date="Ymd H:i",###}</td>
+										<td>
+											<a href="{:url('user/magnet/open_dir',['mid'=>$vo.mid])}">查看</a> |
+											<a class="js-ajax-dialog-btn" href="{:url('admin/magnet/udel',['mid'=>$vo.mid])}" data-msg="您确定要删除下载？" data-ok="" data-cacel="取消">删除</a>
+										</td>
+									</tr>
+									</foreach>
+								</tbody>
+							</table>
+							<div class="pagination">{$list->render()}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<include file="public@footer" />
+		<div class='addxcc'>
+			<div class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class='modal-header'>
+							<h3 class='modal-title'>修改名称</h3>						
+						</di>
+						<div class='modal-body'>
+							<p>原文件名:<b><span id='old'></span></b></p>
+							<input name='mid' type='number' id='mid' class='hide'>
+							<input name='name' type='text' id='rename' class='form-control'>
+						</div>
+						<div class='modal-footer'>
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary change">保存</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			function addmodel(mid){
+				$("#mid").val(mid);
+				$("#old").text($(".name"+String(mid)).text());
+			}	
+			$(".change").click(function(){
+				var mid=$("#mid").val();
+				mid=parseInt(mid);
+				var rename=$("#rename").val();
+				$.ajax({
+					url:'{:url('user/magnet/rename')}',
+					data:{mid:mid,rename:rename},
+					success:function(data){
+						if(data.status){
+							$(".name"+String(mid)).text(rename);
+						}else{
+							alert('修改失败');
+						}
+						$("#old").text('');
+						$('.bs-example-modal').modal('hide')
+					}
+				})
+
+			})
+		</script>
+	</div>
+
+<!-- /container -->
+<include file="public@scripts" />
+</body>
+</html>
