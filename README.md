@@ -89,6 +89,12 @@ server
 
 ```
 
+创建数据库名yunbt  
+用户名yunbt  
+密码a123456  
+数据库导入yunbt.sql  
+
+数据库配置 data/conf/database.php
 
 
 
