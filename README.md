@@ -4,6 +4,7 @@
 
 暂不支持下载工具下载，可以在浏览器中下载，后续将添加  
 
+测试站点:[yunbt](http://yunbt.w4.pw)
 ## 安装
 php>7 mysql  
 php安装fileinfo插件  
