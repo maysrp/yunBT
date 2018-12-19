@@ -88,11 +88,15 @@ server
 
 
 ```
-
+### 数据库
 创建数据库名yunbt  
 用户名yunbt  
 密码a123456  
 数据库导入yunbt.sql  
+
+### 管理员
+用户名 admin  
+密码 a123456  
 
 数据库配置 data/conf/database.php
 
