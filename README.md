@@ -8,7 +8,7 @@
 ## 安装
 
 ### Aria2
-安装Aria2
+安装Aria2  
 `apt-get update && apt-get install -y aria2 `
 
 `screen -dmS aria2 aria2c --enable-rpc --rpc-listen-all=true --rpc-allow-origin-all -c `
