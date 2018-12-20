@@ -93,6 +93,25 @@ class MagnetController extends AdminBaseController
         $this->assign('xtotal',$xtotal);
         return $this->fetch();
     }
+    public function addbuy(){
+        $id=input('param.uid/d');
+        $buy=input('param.buy/d');
+        if($info=uid($id)){
+            $info['total']=$info['total']+$buy;
+            $info['buy']=$buy;
+            if(Db::name('user')->update($info)){
+                $re['status']=true;
+                $re['all']=$info['total'];
+                $re['buy']=$buy;
+            }else{
+                $re['status']=false;
+            }
+        }else{
+            $re['status']=false;
+        }
+        return json($re);
+
+    }
     public function aria2_force(){
         $info=aria2();
         $result=isset($info['result'])?$info['result']:false;
