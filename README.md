@@ -30,7 +30,7 @@ lnmp1.4 安装php fileinfo扩展 方法
 ### Nginx  
 
 nginx修改fastcgi.conf配置  
->lnmp下该文件在/usr/local/nginx/conf/fastcgi.conf  
+>lnmp下该文件在 `/usr/local/nginx/conf/fastcgi.conf`  
 
 把其中的  
 ```
