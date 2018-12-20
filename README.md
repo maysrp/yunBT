@@ -15,24 +15,17 @@
 
 ### PHP
 php>7   
-php安装fileinfo插件  
-
-```
-lnmp1.4 安装php fileinfo扩展 方法
-第一步：在lnmp1.4找到php安装的版本
-
-使用命令 tar   -jxvf   php-7.1.7.tar.bz2 解压
-
-第二步： 在解压的php-7.1.7文件夹里找到fileinfo文件夹，然后使用命令 cd  /home/xxx/lnmp1.4/src/php-7.1.7/ext/fileinfo   进入到fileinfo文件夹
-
-第三步：/usr/local/php/bin/phpize，得到数据
-
-第四步： 使用如下命令编译安装
-
-./configure -with-php-config=/usr/local/php/bin/php-config
-make && make install
-
-第五步：再修改/usr/local/php/etc/php.ini  查找：extension = 再最后一个extension= 后面添加上extension = "fileinfo.so"   保存，执行/etc/init.d/php-fpm restart 重启。
+lnmp下php安装fileinfo插件  
+lnmp1.4 安装php fileinfo扩展 方法  
+- 第一步：在lnmp1.4找到php安装的版本  
+使用命令 `tar   -jxvf   php-7.1.7.tar.bz2` 解压  
+- 第二步： 在解压的php-7.1.7文件夹里找到fileinfo文件夹，然后使用命令 `cd  /home/xxx/lnmp1.4/src/php-7.1.7/ext/fileinfo`进入到fileinfo文件夹  
+- 第三步：/usr/local/php/bin/phpize，得到数据  
+- 第四步： 使用如下命令编译安装  
+`./configure -with-php-config=/usr/local/php/bin/php-config`
+`make && make install`
+   
+- 第五步：再修改/usr/local/php/etc/php.ini  查找：extension = 再最后一个extension= 后面添加上extension = "fileinfo.so"   保存，执行/etc/init.d/php-fpm restart 重启。
 
 ```
 
@@ -45,6 +38,7 @@ fastcgi_param PHP_ADMIN_VALUE "open_basedir=$document_root/../:/tmp/:/proc/";
 ```
 
 Nginx 配置  
+
 ```
 server
     {
@@ -95,7 +89,6 @@ server
         access_log  /home/wwwlogs/yunbt.w4.pw.log;
     }
 
-
 ```
 ### 数据库
 创建数据库名yunbt  
@@ -116,6 +109,9 @@ server
 
 `*/1 * * * * curl http://yunbt.w4.pw/portal/cron/download`  
 请替换其中yunbt.w4.pw 为你自己的域名
+
+### 管理后台  
+your_domain.com/admin  
 
 ## 未来计划
 1. 分享功能
