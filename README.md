@@ -113,6 +113,12 @@ server
 `*/1 * * * * curl http://yunbt.w4.pw/portal/cron/download`  
 请替换其中yunbt.w4.pw 为你自己的域名
 
+### 权限修改
+修改data文件夹下的权限  
+
+`chmod -R 777 data/`  
+否则无法打开
+
 ### 管理后台  
 your_domain.com/admin  
 目前功能：
