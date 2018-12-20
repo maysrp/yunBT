@@ -20,7 +20,7 @@ lnmp1.4 安装php fileinfo扩展 方法
 - 第一步：在lnmp1.4找到php安装的版本  
 使用命令 `tar   -jxvf   php-7.1.7.tar.bz2` 解压  
 - 第二步： 在解压的php-7.1.7文件夹里找到fileinfo文件夹，然后使用命令 `cd  /home/xxx/lnmp1.4/src/php-7.1.7/ext/fileinfo`进入到fileinfo文件夹  
-- 第三步：/usr/local/php/bin/phpize，得到数据  
+- 第三步：输入`/usr/local/php/bin/phpize` 得到数据  
 - 第四步： 使用如下命令编译安装  
 `./configure -with-php-config=/usr/local/php/bin/php-config`
 `make && make install`
