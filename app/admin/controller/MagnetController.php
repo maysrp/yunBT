@@ -98,7 +98,7 @@ class MagnetController extends AdminBaseController
         $buy=input('param.buy/d');
         if($info=uid($id)){
             $info['total']=$info['total']+$buy;
-            $info['buy']=$buy;
+            $info['buy']=$info['buy']+$buy;
             if(Db::name('user')->update($info)){
                 $re['status']=true;
                 $re['all']=$info['total'];
