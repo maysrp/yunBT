@@ -117,7 +117,8 @@ server
 修改data文件夹下的权限  
 
 `chmod -R 777 data/`  
-否则无法打开
+`chmod -R 777 public/`  
+
 
 ### 管理后台  
 your_domain.com/admin  
