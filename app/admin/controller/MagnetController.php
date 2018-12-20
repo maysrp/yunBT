@@ -102,7 +102,7 @@ class MagnetController extends AdminBaseController
             if(Db::name('user')->update($info)){
                 $re['status']=true;
                 $re['all']=$info['total'];
-                $re['buy']=$buy;
+                $re['buy']=$info['buy'];
             }else{
                 $re['status']=false;
             }
