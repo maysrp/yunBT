@@ -27,17 +27,20 @@ lnmp1.4 安装php fileinfo扩展 方法
    
 - 第五步：再修改/usr/local/php/etc/php.ini  查找：extension = 再最后一个extension= 后面添加上extension = "fileinfo.so"   保存，执行/etc/init.d/php-fpm restart 重启。
 
-```
-
+### Nginx  
 
 nginx修改fastcgi.conf配置  
+>lnmp下该文件在/usr/local/nginx/conf/fastcgi.conf  
+
+把其中的  
 ```
 #fastcgi_param PHP_ADMIN_VALUE "open_basedir=$document_root/:/tmp/:/proc/";
 fastcgi_param PHP_ADMIN_VALUE "open_basedir=$document_root/../:/tmp/:/proc/";
-
 ```
 
-Nginx 配置  
+
+Nginx 配置
+>下文件为lnmp下的配置    
 
 ```
 server
@@ -112,6 +115,10 @@ server
 
 ### 管理后台  
 your_domain.com/admin  
+目前功能：
+- 添加用户下载量
+- 下载管理
+- 修改当前最大下载文件量［默认10GB］
 
 ## 未来计划
 1. 分享功能
