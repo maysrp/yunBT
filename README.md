@@ -25,7 +25,7 @@ lnmp1.4 安装php fileinfo扩展 方法
 `./configure -with-php-config=/usr/local/php/bin/php-config`  
 `make && make install`
    
-- 第五步：再修改/usr/local/php/etc/php.ini  查找：extension = 再最后一个extension= 后面添加上extension = "fileinfo.so"   保存，执行/etc/init.d/php-fpm restart 重启。
+- 第五步：再修改/usr/local/php/etc/php.ini  查找：extension = 再最后一个extension= 后面添加上extension = "fileinfo.so"   保存，执行`/etc/init.d/php-fpm restart` 重启。
 
 ### Nginx  
 
