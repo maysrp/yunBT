@@ -4,14 +4,15 @@
 
 暂不支持下载工具下载，可以在浏览器中下载，后续将添加  
 
-测试站点:[yunbt](http://yunbt.w4.pw)
+测试站点:[yunbt](http://www.yunbt.net)
 ## 安装
 
 ### Aria2
 安装Aria2  
 `apt-get update && apt-get install -y aria2 `
 
-`screen -dmS aria2 aria2c --enable-rpc --rpc-listen-all=true --rpc-allow-origin-all -c `
+`screen -dmS aria2 aria2c --enable-rpc --rpc-listen-all=true --rpc-allow-origin-all -c `  
+若要下载Magnet需要导入DHT.data  
 
 ### PHP
 php>7   
@@ -49,7 +50,7 @@ server
         #listen [::]:80;
         server_name yunbt.w4.pwt;
         index index.html index.htm index.php default.html default.htm default.php;
-        root  /home/wwwroot/yunbt.w4.pw/public;
+        root  /home/wwwroot/www.yunbt.net/public;
 
 	location / {
    	if (!-e $request_filename) {
@@ -59,7 +60,7 @@ server
 	}
 	location /afile{
                 internal;
-                alias /home/wwwroot/yunbt.w4.pw/public/file;
+                alias /home/wwwroot/www.yunbt.net/public/file;
         }
         #error_page   404   /404.html;
 
@@ -109,9 +110,25 @@ server
 
 添加定时任务  
 `crontab -e`
+```
+*/1 * * * * curl http://www.yunbt.net/portal/cron/download
+*/3 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_move.py
+*/1 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_ffmpeg.py
+```  
+请替换其中www.yunbt.net 为你自己的域名  
 
-`*/1 * * * * curl http://yunbt.w4.pw/portal/cron/download`  
-请替换其中yunbt.w4.pw 为你自己的域名
+### python
+python3  
+pymysql  
+`pip3 install pymysql`  
+cron_ffmpeg.py
++ 44行:数据库配置
++ 50行:设置你的web路径
+cron_move.py  
++ 14行:设置你的web路径
++ 15行:视频文件[无须修改]
++ 74行:数据库配置
+
 
 ### 权限修改
 修改data文件夹下的权限  
@@ -128,8 +145,8 @@ your_domain.com/admin
 - 修改当前最大下载文件量［默认10GB］
 
 ## 未来计划
-1. 分享功能
-2. 用户转码功能
+1. ~~分享功能~~
+2. ~~用户转码功能~~
 3. 积分功能
 4. 邀请功能
 5. 工具下载
