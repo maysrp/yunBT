@@ -141,6 +141,8 @@ cron_move.py
 + 15行:视频文件[无须修改]
 + 74行:数据库配置
 
+### ffmpeg
+`apt-get install ffmpeg`
 
 ### 权限修改
 修改data文件夹下的权限  
