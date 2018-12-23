@@ -7,8 +7,6 @@
 测试站点:[yunbt](http://www.yunbt.net)
 
 ## 截图  
-视频播放  
-![WechatIMG4.jpeg](https://i.loli.net/2018/12/23/5c1f95ae0e04b.jpeg)
 分享密码    
 ![WechatIMG5.png](https://i.loli.net/2018/12/23/5c1f95ae39ffb.png)
 分享  
