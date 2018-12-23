@@ -123,7 +123,8 @@ pymysql
 `pip3 install pymysql`  
 cron_ffmpeg.py
 + 44行:数据库配置
-+ 50行:设置你的web路径
++ 50行:设置你的web路径  
+
 cron_move.py  
 + 14行:设置你的web路径
 + 15行:视频文件[无须修改]
