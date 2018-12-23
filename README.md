@@ -5,6 +5,19 @@
 暂不支持下载工具下载，可以在浏览器中下载，后续将添加  
 
 测试站点:[yunbt](http://www.yunbt.net)
+
+## 截图  
+视频播放  
+![WechatIMG4.jpeg](https://i.loli.net/2018/12/23/5c1f95ae0e04b.jpeg)
+分享密码    
+![WechatIMG5.png](https://i.loli.net/2018/12/23/5c1f95ae39ffb.png)
+分享  
+![WechatIMG2.png](https://i.loli.net/2018/12/23/5c1f95ae983c4.png)
+视频文件  
+![WechatIMG3.png](https://i.loli.net/2018/12/23/5c1f95aeb8f78.png)
+下载列表  
+![WechatIMG1.png](https://i.loli.net/2018/12/23/5c1f95af2e1f8.png)
+
 ## 安装
 
 ### Aria2
