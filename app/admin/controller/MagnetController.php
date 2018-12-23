@@ -112,6 +112,37 @@ class MagnetController extends AdminBaseController
         return json($re);
 
     }
+    public function show_all_videofile(){
+        session('dir',ROOT_PATH . 'public/file');
+        $where['del']=0;
+        $info=Db::name('vf')->where($where)->paginate(50);
+        $this->assign('list',$info);
+        return $this->fetch('show_all_videofile');
+    }
+    public function del_vf(){
+        $where['vid']=input('param.vid/d');
+        $where['del']=0;
+        $update['del']=time();
+        if(Db::name('vf')->where($where)->update($update)){
+            return $this->success('删除成功');
+        }
+        return $this->error('删除失败');
+    }
+    public function show_share(){
+        $where['del']=0;
+        $info=Db::name('share')->where($where)->paginate(50);
+        $this->assign('list',$info);
+        return $this->fetch('show_share');
+    }
+    public function del_share(){
+        $where['sid']=input('param.sid/d');
+        $where['del']=0;
+        $update['del']=time();
+        if(Db::name('share')->where($where)->update($update)){
+            return $this->success('删除成功');
+        }
+        return $this->error('删除失败');
+    }
     public function aria2_force(){
         $info=aria2();
         $result=isset($info['result'])?$info['result']:false;

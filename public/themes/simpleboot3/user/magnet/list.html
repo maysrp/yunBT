@@ -5,6 +5,7 @@
 <meta name="keywords" content=""/>
 <meta name="description" content="">
 <include file="public@head"/>
+<script type="text/javascript" src="https://cdn.staticfile.org/clipboard.js/1.5.15/clipboard.min.js"></script>
 </head>
 
 <body class="body-white" id="top">
@@ -18,7 +19,7 @@
 			<div class="col-md-9">
 				<div class="tabs">
 					<ul class="nav nav-tabs">
-						<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-star"></i> 我的下载</a></li>
+						<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-file"></i> 我的下载</a></li>
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane active" id="one">
@@ -26,11 +27,11 @@
 							<table class="table table-bordered table-striped table-hover">
 								<thead>
 									<tr>
-										<th>名称</th>
-										<th>链接</th>
-										<th>状态</th>
-										<th>时间</th>
-										<th>操作</th>
+										<th style='width:35%'>名称</th>
+										<th style='width:8%' class="text-center">链接</th>
+										<th style='width:30%'>状态</th>
+										<th style='width:7%'>时间</th>
+										<th style='width:25%' class="text-center">操作</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -44,17 +45,27 @@
 												</php>
 											</span>
 										</td>
-										<td>
-											<a href='{$vo.magnet}'>Link</a>
-											
+										<td class="text-center">
+											<a href='{$vo.magnet}'><span class="glyphicon glyphicon-link"></span></a>
+											|
+											<span class='glyphicon glyphicon-share text-primary' data-toggle='modal' data-target='.share-modal' onClick='sharemodel({$vo.mid})'></span>
 										</td>
 										<td>
                                             {$vo.total|fsize} {$vo.mid|mid_status}
                                         </td>
-                                        <td>{$vo.addtime|date="Ymd H:i",###}</td>
-										<td>
-											<a href="{:url('user/magnet/open_dir',['mid'=>$vo.mid])}">查看</a> |
-											<a class="js-ajax-dialog-btn" href="{:url('admin/magnet/udel',['mid'=>$vo.mid])}" data-msg="您确定要删除下载？" data-ok="" data-cacel="取消">删除</a>
+                                        <td><span title='{$vo.addtime|date="Ymd H:i",###}'>{$vo.addtime|date="ymd",###}</span></td>
+										<td class="text-center">
+											<a href="{:url('user/magnet/open_dir',['mid'=>$vo.mid])}" class='text-info'><span class='glyphicon glyphicon-folder-open'></span></a> 
+											|
+											<if condition='$vo.done gt 0'>
+												<if condition="$vo.cmid eq 0">
+													<a title="视频文件" class="text-success" href="{:url('user/magnet/viewmid',['mid'=>$vo.mid])}"><span class='glyphicon glyphicon-facetime-video' ></span></a>
+												<else/>
+													<a title="视频文件" class="text-success" href="{:url('user/magnet/viewmid',['mid'=>$vo.cmid])}"><span class='glyphicon glyphicon-facetime-video' ></span></a>
+												</if>
+											|
+											</if>
+											<a class="js-ajax-dialog-btn text-danger" href="{:url('user/magnet/udel',['mid'=>$vo.mid])}" data-msg="您确定要删除下载？" data-ok="" data-cacel="取消"><span class='glyphicon glyphicon-remove'></span></a>
 										</td>
 									</tr>
 									</foreach>
@@ -68,6 +79,7 @@
 		</div>
 		<include file="public@footer" />
 		<div class='addxcc'>
+			<!-- Change name -->
 			<div class="modal fade bs-example-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
@@ -87,10 +99,62 @@
 				</div>
 			</div>
 		</div>
+		<!-- Share -->
+			<div class="modal fade share-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class='modal-header'><h4 class='modal-title'><small>分享</small><span class='share-name'></span></h4></div>
+						<div class='modal-body'>
+							<p class='text-primary'><span class='glyphicon glyphicon-ok'></span> 创建分享链接</p>
+								<div class='row'>
+									<div class='col-xs-8'>
+
+										<div class='input-group'>
+											<input class='form-control share-url'>
+											<div class='input-group-btn'>
+												<button class='btn btn-info copy-btn' data-clipboard-target=".copy">复制链接</button>
+											</div>								
+										</div>
+										<br>
+										<div class='input-group col-xs-8'>
+											<div class='input-group-addon'>
+												提取密码
+											</div>	
+											<input class='form-control share-password'>
+										</div>
+									</div>
+									<div class='copy' style='opacity:0'></div>
+								</div>
+						</div>
+						<div class='modal-footer'>
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						</div>	
+					</div>
+				</div>
+			</div>
 		<script>
 			function addmodel(mid){
 				$("#mid").val(mid);
 				$("#old").text($(".name"+String(mid)).text());
+			}	
+			function sharemodel(mid){
+				//mid
+				$(".share-name").text($(".name"+String(mid)).text());
+				$.ajax({
+					url:'{:url('user/magnet/share')}',
+					data:{mid:mid},
+					success:function(data){
+						if(data.status){
+							allurl=window.location.protocol+'//'+window.location.host+data.url;
+							$(".share-password").val(data.password);
+							$(".share-url").val(allurl);
+							$(".copy").text('链接'+allurl+' 密码'+String(data.password));
+						}else{
+							alert(data.con);
+							$('.share-modal').modal('hide');
+						}
+					}
+				})
 			}	
 			$(".change").click(function(){
 				var mid=$("#mid").val();
@@ -111,6 +175,12 @@
 				})
 
 			})
+			var clipboard = new Clipboard('.copy-btn');
+			clipboard.on("success",function(e){
+				// 复制成功
+				alert(e.text);
+				e.clearSelection();
+			});
 		</script>
 	</div>
 

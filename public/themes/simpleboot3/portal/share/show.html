@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$site_info.site_name|default=''}分享</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+    <include file="public@head"/>
+</head>
+<body>
+    <div class='container'>
+        <div class='row' style='margin-top:100px;'>
+            <div class='col-md-5 col-md-offset-3 text-center'>
+                <h2>{$site_info.site_name|default=''}</h2>     
+            </div>
+        </div>
+        <div class='row'>
+             <div class='col-md-5 col-md-offset-3'>
+                <div class='panel panel-primary' style="border-radius:10px;">
+                    <div class='panel-heading' style="border-top-left-radius:7px;border-top-right-radius:7px;">
+                        <h4><img class='img-circle' width='60px' height='60px;' src='{$info.uid|uid_image}'> {$info.uid|uid_name}分享了该文件</h4>  
+                    </div>
+                    <div class='panel-body'>
+                        <form class='form' method='post' action="{:url('portal/share/url_dir')}">
+                            <div class='input-group' style='margin:30px;'>
+                                <input type='text' class='hide' value="{$info['share_url']}" name='hash'>
+                                <input type='text' class='form-control' name='password' placeholder='请输入密码'>
+                                <div class='input-group-btn'>
+                                    <button class='btn btn-primary'>提取文件</button>
+                                </div>
+                            </div>
+                        
+                        </form>
+
+                    </div>
+                </div>
+
+             </div>
+        </div>
+    </div>
+</body>
+</html>

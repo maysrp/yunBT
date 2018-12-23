@@ -1,0 +1,45 @@
+<include file='public@header'/>
+</header>
+<body>
+    <div class="container">
+        <div class="row">
+            <h2>分享列表</h2>
+        </div>
+        <div class="row">
+            <table class="table table-hover">
+                <tr>
+                    <th>文件名</th>
+                    <th>文件大小</th>
+                    <th>分享者</th>
+                    <th>分享量</th>
+                    <th>链接</th>
+                    <th>密码</th>
+                    <th>操作</th>
+                </tr>
+                <volist name='list' id="vo">
+                    <tr>
+                        <td>
+                            <p title='系统获取首个文件或文件夹'>{$vo.name}</p>
+                            <p class='text-info' title='用户命名'>{$vo.uname}</p>
+                        </td>
+                        <td>{$vo.total|fsize}</td>
+                        <td>{$vo.uid|uid_name}</td>
+                        <td>{$vo.count}</td>
+                        <td>
+                            <a title='分享链接' href='{:url('portal/share/url',['hash'=>$vo.share_url])}'>Link</a>
+                        </td>
+                        <td>{$vo.password}</td>
+                        <td>
+                            <a class="text-danger" href='{:url('admin/magnet/del_share',['sid'=>$vo.sid])}'><span class="glyphicon glyphicon-remove" title="删除文件"></span></a>
+                        </td>
+                    </tr>
+                </volist>
+            </table>
+        </div>
+        <div class="row text-center list-inline">
+            {$list->render()}
+        </div>
+
+    </div>
+
+</body>

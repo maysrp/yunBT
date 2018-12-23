@@ -47,7 +47,16 @@ class MagnetController extends UserBaseController
         return json($re);
     }
     public function addone_xo(){
-        $magnet=input('param.magnet/s');
+        $file = request()->file('torrent');
+        if($file){
+            $info = $file->validate(['size'=>'100241024','ext'=>'torrent'])->move(ROOT_PATH . 'public/file' . DS . 'torrent');
+            if($info){
+                $t2m=magnet(ROOT_PATH . 'public/file' . DS .'torrent'.DS.$info->getSaveName());
+            }else{
+                $this->error('种子文件有误！');
+            }
+        }
+        $magnet=isset($t2m)?$t2m:input('param.magnet/s');
         $re=is_download_link($magnet);
         if($re['status']){
             if($this->have_download()>0){
@@ -98,6 +107,108 @@ class MagnetController extends UserBaseController
         }
         $this->error('不存在该目录');
         
+    }
+    public function share(){
+        $mid=input('param.mid/d');
+        $where['uid']=cmf_get_current_user_id();
+        $where['mid']=$mid;
+        $where['del']=0;
+        $where['udel']=0;
+        if($info=Db::name('magnet')->where($where)->find()){
+            if($info['total']==$info['complete']&&$info['complete']>10000){
+                if($info['sid']){
+                    $back=Db::name('share')->find($info['sid']);
+                    $re['status']=true;
+                    $re['con']='已经分享';
+                    $re['password']=$back['password'];
+                    $re['url']=url('portal/share/url',['hash'=>$back['share_url']]);
+                }else{
+                    $md5=$this->md5($info);
+                    $password=$this->rand(4);
+                    $insert['mid']=$mid;
+                    $insert['uid']=$where['uid'];
+                    $insert['share_url']=$md5;
+                    $insert['password']=$password;
+                    $insert['magnet']=$info['magnet'];
+                    $insert['total']=$info['total'];
+                    $insert['dir']=$info['dir'];
+                    $insert['name']=$info['name'];
+                    $insert['uname']=$info['uname'];
+                    $sid=Db::name('share')->insertGetId($insert);
+                    $upm['sid']=$sid;
+                    if(Db::name('magnet')->where($where)->update($upm)){
+                        $re['status']=true;
+                        $re['password']=$password;
+                        $re['url']=url('portal/share/url',['hash'=>$md5]);
+                    }else{
+                        $re['status']=false;
+                        $re['con']='未知错误';
+                    }
+                }
+            }else{
+                $re['status']=false;
+                $re['con']='文件未下载完成不能分享。';
+            }
+        }else{
+            $re['status']=false;
+            $re['con']='该文件不存在';
+        }
+        return json($re);
+    }
+    public function viewmid(){
+        $user=cmf_get_current_user();
+        $this->assign($user);
+        $where['mid']=input('param.mid/d');
+        $where['uid']=cmf_get_current_user_id();
+        $where['del']=0;
+        $where['udel']=0;
+        $where['cmid']=0;
+        $whereOr=$where;
+        unset($whereOr['mid']);
+        $whereOr['cmid']=$where['mid'];
+        if($info=Db::name('magnet')->where($where)->find()){
+            $vw['mid']=$info['cmid']==0?$info['mid']:$info['cmid'];
+            $vw['del']=0;
+            if($list=Db::name('vf')->where($vw)->paginate(30)){
+                $this->assign('list',$list);
+                return $this->fetch('viewmid');
+            }
+        }elseif($info=Db::name('magnet')->where($whereOr)->find()){
+            $vw['mid']=$info['cmid']==0?$info['mid']:$info['cmid'];
+            $vw['del']=0;
+            if($list=Db::name('vf')->where($vw)->paginate(30)){
+                $this->assign('list',$list);
+                return $this->fetch('viewmid');
+            }
+        }
+        return $this->error('空无一物');
+        
+    }
+    public function upload(){
+        $file = request()->file('torrent');
+        if($file){
+            $info = $file->validate(['size'=>'100241024','ext'=>'torrent'])->move(ROOT_PATH . 'public' . DS . 'torrent');
+            if($info){
+                echo "<br><center><h1>磁力连接转换</h1></center><br><br><center><h2>".magnet(ROOT_PATH . 'public/file' . DS .'torrent'.DS.$info->getSaveName())."</h2></center>";
+            }else{
+                $this->error('错误文件');
+            }
+        }else{
+            $this->error('转换失败');
+        }
+    }
+    protected function rand($num=6){
+        $char = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        return substr(str_shuffle($char),62-$num);
+    }
+    protected function md5($info){
+        $md5=md5($info['uid'].$info['mid'].mt_rand(1000,9999).$info['uname']);
+        $where['share_url']=$md5;
+        if(Db::name('share')->where($where)->find()){
+            return $this->md5($info);
+        }else{
+            return $md5;
+        }
     }
     protected function have_download(){
         $info=uid(cmf_get_current_user_id());

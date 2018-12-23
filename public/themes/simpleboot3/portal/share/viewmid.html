@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$user_login}  - 我的下载</title>
+<meta name="keywords" content=""/>
+<meta name="description" content="">
+<include file="public@head"/>
+<script type="text/javascript" src="https://cdn.staticfile.org/clipboard.js/1.5.15/clipboard.min.js"></script>
+</head>
+
+<body class="body-white" id="top">
+<include file="public@nav" />
+<div class="container tc-main">
+    <div class="row">
+        <table class="table">
+            <tr>
+                <th width='40%'>文件名</th>
+                <th width='10%'>大小</th>
+                <th width='30%'>转码</th>
+                <th width='20%' class="text-right">转码文件</th>
+            </tr>
+            <php>
+                $file=[];
+                $sfile=[];
+                $log=[];
+            </php>
+            <volist name='list' id="vo">
+                <tr>
+                    <php>
+                        $file[]=$vo['file'];
+                        $sfile[]=$vo['mp4'];
+                        $log[]='/file/log/'.$vo['vid'].'.log';
+                    </php>
+                    <td>
+                        <span value="{$vo.file}" class="view-video text-info" data-toggle="modal" data-target=".modal-view" name="<span class='text-danger'>[原]</span>{$vo.filename}">{$vo.filename}</span>
+                    </td>
+                    <td>{$vo.size|fsize}</td>
+                    <td>
+                        <if condition='$vo.done gt 0'>
+                                <span value="{$vo.mp4}" class='view-video text-primary' data-toggle="modal" data-target=".modal-view" name="<span class='text-success'>[转]</span>{$vo.filename}">转码完成</span>
+                        <else/>
+                            未开始
+                        </if>
+                    </td>
+                    <td  class="text-right">
+                        <if condition='$vo.done gt 0'>
+                            {$vo.msize|fsize}
+                            <span class="text-info glyphicon glyphicon-play view-video" value="{$vo.mp4}" data-toggle="modal" data-target=".modal-view" name="<span class='text-success'>[转]</span>{$vo.filename}"></span>
+                        <else/>
+                            未开始
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+            {:session('file',$file)}
+            {:session('sfile',$sfile)}
+            {:session('log',$log)}
+        </table>
+    </div>
+    <div class="row text-center">
+        <div class="list-inline">{$list->render()}</div>
+    </div>
+    
+    <div class="modal fade modal-view" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title"></h3>
+                </div>
+                <div class="modal-body">
+                    <video src="" controls="controls" width="800px"></video>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".view-video").click(function(){
+            $(".modal-title").html($(this).attr('name'));
+            $("video").attr('src',$(this).attr('value'));
+        })
+        $('.view-video').on('hidden.bs.modal', function (e) {
+  		var play=$("video")[0];
+            play.pause();
+        })
+        
+    </script>
+<include file="public@scripts" />
+</body>
+</html>

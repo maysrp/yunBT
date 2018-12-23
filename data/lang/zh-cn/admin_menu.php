@@ -17,6 +17,8 @@ return array (
   'ADMIN_MAGNET_LIST_DOWNLOADED' => '完成任务',
   'ADMIN_MAGNET_LIST_DOWNLOADING' => '正在下载',
   'ADMIN_MAGNET_MAGNET_SET' => '下载设置',
+  'ADMIN_MAGNET_SHOW_ALL_VIDEOFILE' => '视频文件',
+  'ADMIN_MAGNET_SHOW_SHARE' => '分享列表',
   'ADMIN_MAILER_INDEX' => '邮箱配置',
   'ADMIN_MAILER_INDEXPOST' => '邮箱配置提交保存',
   'ADMIN_MAILER_TEMPLATE' => '邮件模板',

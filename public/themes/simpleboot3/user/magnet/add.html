@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>{$user_login}  - 我的下载</title>
+<title>{$user_login}  - 添加下载</title>
 <meta name="keywords" content=""/>
 <meta name="description" content="">
 <include file="public@head"/>
@@ -18,7 +18,7 @@
 			<div class="col-md-9">
 				<div class="tabs">
 					<ul class="nav nav-tabs">
-						<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-star"></i> 添加下载</a></li>
+						<li class="active"><a href="#one" data-toggle="tab"><i class="fa fa-magnet"></i> 添加下载</a></li>
                     </ul>
 					<div class="tab-content">
                         <div class="row">
@@ -27,10 +27,14 @@
                             </div>
                         </div>
 						<div class="tab-pane active" id="one">
-                            <form method="post" action="{:url('user/magnet/addone_xo')}">
+                            <form method="post" action="{:url('user/magnet/addone_xo')}" enctype="multipart/form-data">
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="链接" name="magnet">
-                                    <div class="input-group-btn">
+									<input type="file" class="hide torrent" placeholder="种子" name="torrent">
+									<div class="input-group-btn">
+                                        <span class="btn btn-primary" onClick='uploadM()'>选择种子</span>
+                                    </div>
+									<div class="input-group-btn">
                                         <button class="btn btn-info">提交</button>
                                     </div>
                                 </div>
@@ -40,6 +44,27 @@
 				</div>
 			</div>
 		</div>
+		<script>
+			function uploadM(){
+				$(".torrent").click();
+			}
+			$(".torrent").change(function(){
+				var name=document.querySelector(".torrent").files[0].name;
+				var size=document.querySelector(".torrent").files[0].size;
+				if(size<10000000){
+					if(name.search(/\.torrent$/i)>0){
+						$("input[name='magnet']").val(name);
+					}else{
+						$(".torrent").val("");
+						alert('文件必须为种子');
+					}
+				}else{
+					$(".torrent").val("");
+					alert('文件种子过大');
+				}
+
+			})
+		</script>
 		<include file="public@footer" />
 	</div>
 <!-- /container -->

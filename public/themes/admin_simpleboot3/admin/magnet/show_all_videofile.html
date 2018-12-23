@@ -1,0 +1,85 @@
+<include file='public@header'/>
+</header>
+<body>
+    <div class="container">
+        <div class="row">
+            <h2>视频文件列表</h2>
+        </div>
+        <div class="row">
+            <table class="table table-hover">
+                <tr>
+                    <th>文件名</th>
+                    <th>所属文件</th>
+                    <th>文件大小</th>
+                    <th>原文件者</th>
+                    <th>转码</th>
+                    <th>转码文件大小</th>
+                    <th>操作</th>
+                </tr>
+                <volist name='list' id="vo">
+                    <tr>
+                        <td>
+                            <span value="{$vo.file}" class="view-video text-info" data-toggle="modal" data-target=".modal-view" name="<span class='text-danger'>[原]</span>{$vo.filename}" >{$vo.filename}</span>
+                        </td>
+                        <td>{$vo.mid|mid_name}</td>
+                        <td>{$vo.size|fsize}</td>
+                        <td>{$vo.mid|mid_uid_name}</td>
+                        <td>
+                            <if condition='$vo.stime gt 0'>
+                                <if condition='$vo.done gt 0'>
+                                    <span value="{$vo.mp4}" class='view-video text-success' data-toggle="modal" data-target=".modal-view" name="<span class='text-success'>[转]</span>{$vo.filename}">转码完毕</span>
+                                <else/>
+                                    正在转码:{$vo.stime|date="ymd H:i:s",###}
+                                </if>
+                            <else/>
+                                未开始转码
+                            </if>
+                        </td>
+                        <td>
+                            <if condition='$vo.done gt 0'>
+                                {$vo.msize|fsize}
+                            <else/>
+                                None
+                            </if>
+                        </td>
+                        <td>
+                            <a class="text-danger" href='{:url('admin/magnet/del_vf',['vid'=>$vo.vid])}'><span class="glyphicon glyphicon-remove" title="删除文件"></span></a>
+                        </td>
+                    </tr>
+                </volist>
+            </table>
+        </div>
+        <div class="row text-center list-inline">
+            {$list->render()}
+        </div>
+
+        <div class="modal fade modal-view" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title"></h3>
+                    </div>
+                    <div class="modal-body">
+                        <video src="" controls="controls" style="width:80%"></video>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(".view-video").click(function(){
+                $(".modal-title").html($(this).attr('name'));
+                $("video").attr('src',$(this).attr('value'));
+            })
+            $('.view-video').on('hidden.bs.modal', function (e) {
+                var play=$("video")[0];
+                play.pause();
+            })
+            
+        </script>
+
+    </div>
+
+</body>
