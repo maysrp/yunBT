@@ -8,14 +8,15 @@
 
 ## 截图  
 分享密码    
-![WechatIMG5.png](https://i.loli.net/2018/12/23/5c1f95ae39ffb.png)
+![分享密码](https://i.loli.net/2018/12/23/5c1f95ae39ffb.png)
 分享  
-![WechatIMG2.png](https://i.loli.net/2018/12/23/5c1f95ae983c4.png)
+![分享](https://i.loli.net/2018/12/23/5c1f95ae983c4.png)
 视频文件  
-![WechatIMG3.png](https://i.loli.net/2018/12/23/5c1f95aeb8f78.png)
+![视频文件](https://i.loli.net/2018/12/23/5c1f95aeb8f78.png)
 下载列表  
-![WechatIMG1.png](https://i.loli.net/2018/12/23/5c1f95af2e1f8.png)
-
+![下载列表](https://i.loli.net/2018/12/23/5c1f95af2e1f8.png)  
+后台转码页面  
+![后台转码](https://i.loli.net/2018/12/24/5c2060774d0f1.png)
 ## 安装
 
 ### Aria2
