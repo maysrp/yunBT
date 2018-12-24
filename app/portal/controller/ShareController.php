@@ -80,7 +80,7 @@
             $where['del']=0;
             $where['udel']=0;
             if($info=Db::name('magnet')->where($where)->find()){
-                $vw['mid']=$info['mid'];
+                $vw['mid']=$info['cmid']>0?$info['cmid']:$info['mid'];
                 $vw['del']=0;
                 if($list=Db::name('vf')->where($vw)->paginate(30)){
                     $this->assign('list',$list);
