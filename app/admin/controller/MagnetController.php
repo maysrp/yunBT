@@ -139,7 +139,7 @@ class MagnetController extends AdminBaseController
         $where['del']=0;
         $update['del']=time();
         if(Db::name('share')->where($where)->update($update)){
-            return $this->success('删除成功');
+            $this->success('删除成功');
         }
         return $this->error('删除失败');
     }
