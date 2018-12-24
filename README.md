@@ -101,7 +101,7 @@ server
             deny all;
         }
 
-        access_log  /home/wwwlogs/yunbt.w4.pw.log;
+        access_log  /home/wwwlogs/www.yunbt.net.log;
     }
 
 ```
