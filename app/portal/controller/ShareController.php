@@ -22,6 +22,8 @@
             return $this->error('空无一物');
         }
         public function url_dir(){
+            $user=cmf_get_current_user();
+            $this->assign($user);
             $password=input('param.password/s');
             $password=trim($password);
             $hash=input('param.hash/s');
