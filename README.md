@@ -4,7 +4,7 @@
 
 暂不支持下载工具下载，可以在浏览器中下载，后续将添加  
 
-测试站点:[yunbt](http://www.yunbt.net)
+测试站点:[yunbt.net](http://www.yunbt.net)
 
 ## 截图  
 分享密码    
