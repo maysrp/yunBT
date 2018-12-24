@@ -73,7 +73,7 @@ class filefind(object):
     
 db=pymysql.connect("localhost",'yunbt','a123456','yunbt')#Mysql修改 localhost 用户名 密码 数据库
 cursor=db.cursor()
-cursor.execute("SELECT * FROM `yunbt_magnet` WHERE `del` = '0' AND `udel` =0 AND `cmid` = 0 AND done=0")
+cursor.execute("SELECT * FROM `yunbt_magnet` WHERE `del` = '0' AND `udel` =0 AND `cmid` = 0 AND done=0 AND total=complete AND total>1000000")
 data=cursor.fetchone()
 if data:
     filedir=data[9]
