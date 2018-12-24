@@ -126,6 +126,7 @@ server
 */1 * * * * curl http://www.yunbt.net/portal/cron/download
 */3 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_move.py
 */1 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_ffmpeg.py
+*/30 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_download.py
 ```  
 请替换其中www.yunbt.net 为你自己的域名  
 
@@ -140,7 +141,10 @@ cron_ffmpeg.py
 cron_move.py  
 + 14行:设置你的web路径
 + 15行:视频文件[无须修改]
-+ 74行:数据库配置
++ 74行:数据库配置  
+
+cron_download.py  
++ 3行:限制下载最大值[单位GB]默认10GB    
 
 ### ffmpeg
 `apt-get install ffmpeg`
