@@ -113,7 +113,9 @@ class MagnetController extends AdminBaseController
 
     }
     public function show_all_videofile(){
-        session('dir',ROOT_PATH . 'public/file');
+        $dir=[];
+        $dir['dir']=ROOT_PATH . 'public/file';
+        session('dir',$dir);
         $where['del']=0;
         $info=Db::name('vf')->where($where)->paginate(50);
         $this->assign('list',$info);
