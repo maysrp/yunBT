@@ -122,6 +122,18 @@ class MagnetController extends AdminBaseController
         $this->assign('list',$info);
         return $this->fetch('show_all_videofile');
     }
+    public function re_vf(){
+        $where['vid']=input('param.vid/d');
+        $where['del']=0;
+        $update['stime']=0;
+        $update['done']=0;
+        $update['dof']=0;
+        $update['msize']=0;
+        if(Db::name('vf')->where($where)->update($update)){
+            return $this->success('等待重新转码');
+        }
+        return $this->error('重新转码失败');
+    }
     public function del_vf(){
         $where['vid']=input('param.vid/d');
         $where['del']=0;
