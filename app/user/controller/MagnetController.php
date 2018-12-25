@@ -103,7 +103,8 @@ class MagnetController extends UserBaseController
             $dir['dir']=$info['dir'];
             $dir['name']=$info['uname']?$info['uname']:$info['name'];
             session('dir',$dir);
-            $this->redis($dir['dir']);
+            // $this->redis($dir['dir']);
+            redis_dir($dir['dir']);
             $this->redirect('/dir.php');
         }
         $this->error('不存在该目录');
