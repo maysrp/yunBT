@@ -65,10 +65,10 @@ server
         root  /home/wwwroot/www.yunbt.net/public;
 
 	location / {
+        rewrite ^/file/(.*) /file.php?file=$1 last;
    	if (!-e $request_filename) {
         	rewrite ^(.*)$ /index.php?s=/$1 last;
     	}
-        	rewrite ^/file/(.*) /file.php?file=$1 last;
 	}
 	location /afile{
                 internal;

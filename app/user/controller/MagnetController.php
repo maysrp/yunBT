@@ -103,6 +103,7 @@ class MagnetController extends UserBaseController
             $dir['dir']=$info['dir'];
             $dir['name']=$info['uname']?$info['uname']:$info['name'];
             session('dir',$dir);
+            $this->redis($dir['dir']);
             $this->redirect('/dir.php');
         }
         $this->error('不存在该目录');
@@ -196,6 +197,15 @@ class MagnetController extends UserBaseController
         }else{
             $this->error('转换失败');
         }
+    }
+    protected function redis($dir){
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1', 6379);
+        $key=md5($dir.mt_rand(1000,9999));
+        $num=md5($key.'_num');
+        $redis->setex($key,1800,$dir);
+        $redis->setex($num,1800,100);
+        session('redis',$key);
     }
     protected function rand($num=6){
         $char = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
