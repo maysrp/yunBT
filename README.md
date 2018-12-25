@@ -88,7 +88,7 @@ server
     {
         listen 80;
         #listen [::]:80;
-        server_name yunbt.w4.pwt;
+        server_name www.yunbt.net yunbt.net;
         index index.html index.htm index.php default.html default.htm default.php;
         root  /home/wwwroot/www.yunbt.net/public;
 
