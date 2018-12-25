@@ -151,7 +151,7 @@ cron_download.py
 
 ### Redis
 `apt-get install redis`  
-活着lnmp安装redis  
+或者在lnmp安装redis  
 `./addons.sh install redis` 
 
 ### 权限修改
