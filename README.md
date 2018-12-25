@@ -37,9 +37,18 @@ lnmp安装redis
 安装Aria2  
 `apt-get update && apt-get install -y aria2 `
 
+`cd /root`  
+
+`mkdir .aria2 && cd .aria2`  
+
+`wget http://webdir.cc/aria2.conf`  
+
+`wget http://webdir.cc/dht.dat`  
+
+`echo '' > /root/aria2.session`  
+
 `screen -dmS aria2 aria2c --enable-rpc --rpc-listen-all=true --rpc-allow-origin-all -c `  
 
-若要下载Magnet需要导入DHT.dat
  
 #### ffmpeg
 `apt-get install ffmpeg`
