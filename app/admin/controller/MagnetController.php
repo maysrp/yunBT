@@ -73,6 +73,7 @@ class MagnetController extends AdminBaseController
             $dir['dir']=$info['dir'];
             $dir['name']=$info['uname']?$info['uname']:$info['name'];
             session('dir',$dir);
+            redis_dir($dir['dir']);
             $this->redirect('/dir.php');
         }
         $this->error('不存在该目录');

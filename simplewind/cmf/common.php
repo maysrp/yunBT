@@ -2465,3 +2465,12 @@ function magnet($file){
         return $uri;
     }
 }
+function redis_dir($dir){
+    $redis = new \Redis();
+    $redis->connect('127.0.0.1', 6379);
+    $key=md5($dir.mt_rand(1000,9999));
+    $num=md5($key.'_num');
+    $redis->setex($key,1800,$dir);
+    $redis->setex($num,1800,100);
+    session('redis',$key);
+}

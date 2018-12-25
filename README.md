@@ -149,6 +149,11 @@ cron_download.py
 ### ffmpeg
 `apt-get install ffmpeg`
 
+### Redis
+`apt-get install redis`  
+活着lnmp安装redis  
+`./addons.sh install redis` 
+
 ### 权限修改
 修改data文件夹下的权限  
 
