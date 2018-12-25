@@ -1,6 +1,6 @@
 # YunBT
 ***
-基于ThinkCMS的YunBT的多用户下载程序，支持Magnet和HTTP下载。每个单独用户支持10个任务，默认下载文件最大为10GB，可以在后台修改。下载完成后用户可以直接查看下载的文件,系统将把视频自动转码为720P的mp4格式的视频，用户可以分享下载完的任务。管理员可以添加用户的下载量及查看管理下载任务。  
+基于ThinkCMS的YunBT的多用户下载程序，支持Magnet和HTTP下载。每个单独用户支持10个任务，默认下载文件最大为10GB，可以在后台修改。下载完成后用户可以直接查看下载的文件,系统将使用ffmpeg将视频转码为720P的mp4格式的视频，用户可以分享下载完的任务。管理员可以添加用户的下载量及查看管理下载任务。  
   
 
 测试站点:[www.yunbt.net](http://www.yunbt.net)  
@@ -19,14 +19,33 @@
 ![后台转码](https://i.loli.net/2018/12/24/5c2060774d0f1.png)
 ## 安装
 
-### Aria2
+### 服务器环境
+Linux Nginx Mysql Php Python 
+
+#### LNMP安装
+[lnmp](https://lnmp.org/install.html) 一键安装环境 
+`wget http://soft.vpser.net/lnmp/lnmp1.5.tar.gz -cO lnmp1.5.tar.gz && tar zxf lnmp1.5.tar.gz && cd lnmp1.5 && ./install.sh lnmp`  
+[详尽步骤](https://lnmp.org/install.html)
+
+#### Redis
+
+lnmp安装redis  
+`./addons.sh install redis` 
+[详尽步骤](https://lnmp.org/faq/addons.html)
+
+#### Aria2
 安装Aria2  
 `apt-get update && apt-get install -y aria2 `
 
 `screen -dmS aria2 aria2c --enable-rpc --rpc-listen-all=true --rpc-allow-origin-all -c `  
-若要下载Magnet需要导入DHT.data  
 
-### PHP
+若要下载Magnet需要导入DHT.dat
+ 
+#### ffmpeg
+`apt-get install ffmpeg`
+
+
+#### PHP
 php>7   
 lnmp下php安装fileinfo插件  
 lnmp1.4 安装php fileinfo扩展 方法  
@@ -40,7 +59,7 @@ lnmp1.4 安装php fileinfo扩展 方法
    
 - 第五步：再修改/usr/local/php/etc/php.ini  查找：extension = 再最后一个extension= 后面添加上extension = "fileinfo.so"   保存，执行`/etc/init.d/php-fpm restart` 重启。
 
-### Nginx  
+#### Nginx  
 
 nginx修改fastcgi.conf配置  
 >lnmp下该文件在 `/usr/local/nginx/conf/fastcgi.conf`  
@@ -106,7 +125,7 @@ server
     }
 
 ```
-### 数据库
+#### Mysql
 创建数据库名yunbt  
 用户名yunbt  
 密码a123456  
@@ -114,23 +133,8 @@ server
 
 数据库配置 data/conf/database.php
 
-### 管理员
-用户名 admin  
-密码 a123456  
 
-### cron
-
-添加定时任务  
-`crontab -e`
-```
-*/1 * * * * curl http://www.yunbt.net/portal/cron/download
-*/3 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_move.py
-*/1 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_ffmpeg.py
-*/30 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_download.py
-```  
-请替换其中www.yunbt.net 为你自己的域名  
-
-### python
+#### python
 python3  
 pymysql  
 `pip3 install pymysql`  
@@ -146,24 +150,36 @@ cron_move.py
 cron_download.py  
 + 3行:限制下载最大值[单位GB]默认10GB    
 
-### ffmpeg
-`apt-get install ffmpeg`
 
-### Redis
-`apt-get install redis`  
-或者在lnmp安装redis  
-`./addons.sh install redis` 
-
-### 权限修改
+#### 权限修改
 修改data文件夹下的权限  
 
 `chmod -R 777 data/`  
 `chmod -R 777 public/`  
 
+#### cron
 
-### 管理后台  
-your_domain.com/admin  
+添加定时任务  
+`crontab -e`
+```
+*/1 * * * * curl http://www.yunbt.net/portal/cron/download
+*/3 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_move.py
+*/1 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_ffmpeg.py
+*/30 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_download.py
+```  
+请替换其中www.yunbt.net 为你自己的域名  
 
+### 管理
+
+管理后台 your_domain.com/admin  
+用户名 admin  
+密码 a123456  
+
+
+
+
+
+##未来计划
 目前功能：
 - 添加用户下载量
 - 下载管理
