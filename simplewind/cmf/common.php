@@ -2214,12 +2214,13 @@ function mid_status($mid){
     if($info['cmid']>0){
         $xinfo=Db::name('magnet')->find($info['cmid']);
         if($max<$xinfo['total']){
-            return '任务超过限制';
+            return '<span class=\'text-danger\'>任务超过限制</span>';
         }
         if($xinfo['complete']==$xinfo['total']){
             return '下载完成';
         }else{
             $speed=fsize($xinfo['speed']).'/S';
+            $xinfo['total']=$xinfo['total']>0?$xinfo['total']:1;
             $precent=floor(10000*$xinfo['complete']/$xinfo['total'])/100;
             return '完成:'.$precent.'% 速度:'.$speed;                               
         }
@@ -2231,6 +2232,7 @@ function mid_status($mid){
             return '下载完成';
         }else{
             $speed=fsize($info['speed']).'/S';
+            $info['total']=$info['total']>0?$info['total']:1;
             $precent=floor(10000*$info['complete']/$info['total'])/100;
             return '完成:'.$precent.'% 速度:'.$speed;                               
         }
