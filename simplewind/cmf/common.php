@@ -2172,7 +2172,7 @@ function mid_name($mid){
     $where['mid']=$mid;
     $where['del']=0;
     if($info=Db::name('magnet')->where($where)->find()){
-        $name=$info['uname']!=0?$info['uname']:$info['name'];
+        $name=strlen($info['uname'])>0?$info['uname']:$info['name'];
         return $name;
     }else{
         return FALSE;
