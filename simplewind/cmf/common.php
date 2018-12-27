@@ -2178,6 +2178,15 @@ function mid_name($mid){
         return FALSE;
     }
 }
+function mid_magnet($mid){
+    $where['mid']=$mid;
+    $where['del']=0;
+    if($info=Db::name('magnet')->where($where)->find()){
+        return $info['magnet'];
+    }else{
+        return FALSE;
+    }
+}
 function mid_count($mid){
     $where['cmid']=$mid;
     $where['del']=0;
