@@ -12,10 +12,10 @@
 <include file="public@nav" />
 <div class="container tc-main">
     <div class="row">
-        <table class="table">
+        <table class="table table-hover">
             <tr>
                 <th width='40%'>文件名</th>
-                <th width='10%'>大小</th>
+                <th width='10%' class="hidden-xs">大小</th>
                 <th width='30%'>转码</th>
                 <th width='20%' class="text-right">转码文件</th>
             </tr>
@@ -32,9 +32,9 @@
                         $log[]='/file/log/'.$vo['vid'].'.log';
                     </php>
                     <td>
-                        <span value="{$vo.file}" class="view-video text-info" data-toggle="modal" data-target=".modal-view" name="<span class='text-danger'>[原]</span>{$vo.filename}">{$vo.filename}</span>
+                        <p><span value="{$vo.file}" class="view-video" data-toggle="modal" data-target=".modal-view" name="<span class='text-danger'>[原]</span>{$vo.filename}">{$vo.filename}</span></p>
                     </td>
-                    <td>{$vo.size|fsize}</td>
+                    <td class="hidden-xs">{$vo.size|fsize}</td>
                     <td>
                         <if condition='$vo.done gt 0'>
                                 <span value="{$vo.mp4}" class='view-video text-primary' data-toggle="modal" data-target=".modal-view" name="<span class='text-success'>[转]</span>{$vo.filename}">转码完成</span>
@@ -45,10 +45,11 @@
                     </td>
                     <td  class="text-right">
                         <if condition='$vo.done gt 0'>
-                            {$vo.msize|fsize}
-                            <span class="text-info glyphicon glyphicon-play view-video" value="{$vo.mp4}" data-toggle="modal" data-target=".modal-view" name="<span class='text-success'>[转]</span>{$vo.filename}"></span>
+                            <span class="btn btn-info glyphicon glyphicon-play view-video" value="{$vo.mp4}" data-toggle="modal" data-target=".modal-view" name="<span class='text-success'>[转]</span>{$vo.filename}"></span>
+                            <span class="hidden-xs">{$vo.msize|fsize}</span>
                         <else/>
-                            未开始
+                            <span class="btn btn-primary glyphicon glyphicon-play view-video" value="{$vo.file}" data-toggle="modal" data-target=".modal-view" name="<span class='text-success'>[转]</span>{$vo.filename}"></span>
+                            <span class="hidden-xs">未转码</span>
                         </if>
                     </td>
                 </tr>
@@ -83,7 +84,7 @@
             $("video").attr('src',$(this).attr('value'));
         })
         $('.view-video').on('hidden.bs.modal', function (e) {
-  		var play=$("video")[0];
+        var play=$("video")[0];
             play.pause();
         })
         
