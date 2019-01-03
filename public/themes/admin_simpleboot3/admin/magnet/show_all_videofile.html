@@ -25,6 +25,9 @@
                         <td>{$vo.size|fsize}</td>
                         <td>{$vo.mid|mid_uid_name}</td>
                         <td>
+                            <if condition="$vo.dof gt 4 ">
+                                视频文件错误
+                            </if>
                             <if condition='$vo.stime gt 0'>
                                 <if condition='$vo.done gt 0'>
                                     <span value="{$vo.mp4}" class='view-video text-success' data-toggle="modal" data-target=".modal-view" name="<span class='text-success'>[转]</span>{$vo.filename}">转码完毕</span>
@@ -43,7 +46,7 @@
                             </if>
                         </td>
                         <td>
-                        	<a class="text-warning" href='{:url('admin/magnet/re_vf',['vid'=>$vo.vid])}'><span class="glyphicon glyphicon-repeat" title="重新转码"></span></a>
+                            <a class="text-warning" href='{:url('admin/magnet/re_vf',['vid'=>$vo.vid])}'><span class="glyphicon glyphicon-repeat" title="重新转码"></span></a>
                             ｜
                             <a class="text-danger" href='{:url('admin/magnet/del_vf',['vid'=>$vo.vid])}'><span class="glyphicon glyphicon-remove" title="删除文件"></span></a>
                         </td>

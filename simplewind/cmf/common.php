@@ -2225,7 +2225,7 @@ function mid_status($mid){
         if($max<$xinfo['total']){
             return '<span class=\'text-danger\'>任务超过限制</span>';
         }
-        if($xinfo['complete']==$xinfo['total']){
+        if($xinfo['complete']==$xinfo['total']&&$xinfo['total']>1000000){
             return '下载完成';
         }else{
             $speed=fsize($xinfo['speed']).'/S';
@@ -2237,7 +2237,7 @@ function mid_status($mid){
         if($max<$info['total']){
             return '<span class=\'text-danger\'>任务超过限制</span>';
         }
-        if($info['complete']==$info['total']){
+        if($info['complete']==$info['total']&&$info['total']>1000000){
             return '下载完成';
         }else{
             $speed=fsize($info['speed']).'/S';
@@ -2484,4 +2484,9 @@ function redis_dir($dir){
     $redis->setex($key,1800,$dir);
     $redis->setex($num,1800,100);
     session('redis',$key);
+}
+function img_static($dir){
+    $indx=strstr($dir,'/file');
+    session('file',$indx);
+    return $indx;
 }

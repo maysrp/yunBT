@@ -1,12 +1,18 @@
 <include file='public@header'/>
+<style type="text/css">
+    .input-group{
+        margin-bottom: 10px;
+    }
+</style>
 </header>
 <body>
     <div class="container">
         <div class='row' style='margin-top:100px;'>
             <div class='col-md-6 col-md-offset-3'>
                 <div class='panel panel-info'>
-                    <div class='panel-heading'><h3>下载限制设置</h3></div>
+                    <div class='panel-heading'><h3>网站设置</h3></div>
                     <div class='panel-body'>
+                        <h4><b>下载设置</b></h4>
                         <h4><small>最大下载文件</small>{$info.size}GB</4>
                         <form class='form' method='post'>
                             <div class='input-group'>
@@ -19,9 +25,175 @@
                         </form>
                         <h4><small>空闲:</small>{$free|fsize}<small>/总容量:</small>{$xtotal|fsize}</h4>
                         <p class='alert alert-danger'>设置必须为正整数！</p>
+                        <hr/>
+                        <h4><b>水印设置</b></h4>
+                        <!-- 目前配置 -->
+                        <label>
+                            <input type="checkbox" name="watermark" id="watermark"> 水印状态                            
+                        </label>
+                        <!-- 独立设置 -->
+                        <img src='{$info.logo|img_static}' width="66px" id="logoimg" style="margin:10px;">
+                        <div class="input-group">
+                            <div class="input-group-addon">选择文件</div>
+                            <input type="file" name="logo" class="form-control" id="logo" accept="image/jpeg,image/jpg,image/png">
+                            <div class="input-group-btn">
+                                <button class="btn btn-info uplogo">上传</button>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">位置</div>
+                            <select class="form-control" id="wposition">
+                                <option value="0" id="w0">左上角</option>
+                                <option value="1" id="w1">右上角</option>
+                                <option value="2" id="w2">右下角</option>
+                                <option value="3" id="w3">左下角</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">上下</div>
+                            <input type="number" class="form-control" name="tb" id="tb" value="{$info.tobo}">
+                            <div class="input-group-addon">左右</div>
+                            <input type="number" name="lr"  class="form-control" id="lr" value="{$info.leri}">
+                            <div class="input-group-btn">
+                                <button class="btn btn-info" id="wbtn">提交</button>
+                            </div>
+                        </div>
+                        <hr/>
+                        <h4><b>切片设置</b></h4>
+                        <!-- 目前配置 -->
+                        <label>
+                            <input type="checkbox" name="ts" id="ts">  切片状态                            
+                        </label>
+                        <!-- 独立设置 -->
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                设置切片时长
+                            </div>
+                            <input type="number" name="tstime" class="form-control" id="tstime" value="{$info.tstime}" min='2' max='30' placeholder="最低时长2秒">
+                            <div class="input-group-btn">
+                                <button class="btn btn-success" id="tstn">提交</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        if({$info.water}){
+            $("#watermark").attr('checked',true);
+        }
+        if({$info.ts}){
+            $("#ts").attr('checked',true);
+        }
+        $("#w{$info.position}").attr('selected','selected');
+        $(".uplogo").click(function(){
+            var file=$("#logo")[0].files[0];
+            console.log(file)
+            var fd=new FormData();
+            fd.append("logo",file);
+            $.ajax({
+                url:"/admin/magnet/logo",
+                type:"POST",
+                data:fd,
+                processData: false,  // 告诉jQuery不要去处理发送的数据
+                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+                success:function(data){
+                    if(data.status){
+                       console.log('true');
+                       alert("上传成功");
+                       $("#logoimg").attr('src',data.con);
+                    }else{
+                        alert('error');
+                    }
+                }
+            })
+        })
+        $("#wbtn").click(function(){
+            var wposition=$("#wposition").val();
+            console.log(wposition);
+            var tb=$("#tb").val();
+            var lr=$("#lr").val();
+            $.ajax({
+                url:'{:url('admin/magnet/logo_p')}',
+                data:{
+                    position:wposition,
+                    tobo:tb,
+                    leri:lr
+                },
+                success:function(data){
+                  if(data.status){
+                      console.log('修改成功');
+                      alert('修改成功');
+                  }else{
+                      alert('修改失败');
+                  }  
+                }
+
+            })
+        })
+        $("#tstn").click(function(){
+            var tstime=$("#tstime").val();
+            $.ajax({
+                url:'{:url('admin/magnet/ts_time')}',
+                data:{
+                    tstime:tstime
+                },
+                success:function(data){
+                  if(data.status){
+                      console.log('修改成功');
+                      alert(data.con);
+                  }else{
+                      alert(data.con);
+                  }  
+                }
+            })
+        })
+        $("#ts").click(function(){
+            var wp=$("#ts").prop('checked');
+            if(wp){
+                ts=1;
+            }else{
+                ts=0;
+            }
+            $.ajax({
+                url:'{:url('admin/magnet/ts_start')}',
+                data:{
+                    ts:ts
+                },
+                success:function(data){
+                  if(data.status){
+                      console.log('修改成功');
+                      alert(data.con);
+                  }else{
+                      alert(data.con);
+                  }  
+                }
+
+            })
+        })
+        $("#watermark").click(function(){
+            var wp=$("#watermark").prop('checked');
+            if(wp){
+                water=1;
+            }else{
+                water=0;
+            }
+            $.ajax({
+                url:'{:url('admin/magnet/logo_start')}',
+                data:{
+                    water:water
+                },
+                success:function(data){
+                  if(data.status){
+                      console.log('修改成功');
+                      alert(data.con);
+                  }else{
+                      alert(data.con);
+                  }  
+                }
+
+            })
+        })
+    </script>
 </body>

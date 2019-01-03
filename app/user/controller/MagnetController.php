@@ -108,7 +108,6 @@ class MagnetController extends UserBaseController
             $this->redirect('/dir.php');
         }
         $this->error('不存在该目录');
-        
     }
     public function share(){
         $mid=input('param.mid/d');

@@ -114,7 +114,7 @@
 			}
 		}
 		function download($file){
-            $key=$_SESSION['think']['redis'];
+			$key=$_SESSION['think']['redis'];
 			$file=strstr($file,'/file/').'?key='.$key;
 			return "<a href=\"".$file."\" ><span class=\"glyphicon glyphicon-download-alt\"></span></a>";
 		}

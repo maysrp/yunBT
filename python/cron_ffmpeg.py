@@ -51,7 +51,22 @@ if disk['available']>1410241024:
                 log=orid+'/file/log/'+str(data[0])+'.log'
                 starttime=time.time()
                 #SQL提取语句
-                strx="ffmpeg -i %s -vcodec libx264 -crf 28 -y -vf \"scale=1280:-2\" -strict -2 -acodec aac -ab 128k %s 2>&1|tee %s" % (orid+str(data[2]),orid+str(data[7]),log)
+                wsql='SELECT * FROM yunbt_magnet_site WHERE mid=1'
+                cursor.execute(wsql)
+                wdata=cursor.fetchone()
+                if wdata[5]>0 and os.path.isfile(wdata[9]):
+                    if wdata[6]==1:
+                        vf="-vf \" movie=%s [watermark]; [in][watermark] overlay=main_w-overlay_w-%d:%d [out]\" " %(wdata[9],wdata[8],wdata[7])
+                    elif wdata[6]==2:
+                        vf="-vf \"movie=%s [watermark]; [in][watermark] overlay=main_w-overlay_w-%d:main_h-overlay_h-%d [out]\"" %(wdata[9],wdata[8],wdata[7])
+                    elif wdata[6]==3:
+                        vf="-vf \"movie=%s [watermark]; [in][watermark] overlay=%d:main_h-overlay_h-%d [out]\"" %(wdata[9],wdata[8],wdata[7])
+                    else:
+                        vf="-vf \"movie=%s [watermark]; [in][watermark] overlay=%d:%d [out]\"" %(wdata[9],wdata[8],wdata[7])
+                    strx="ffmpeg -i %s -vcodec libx264 -crf 28 -y -vf \"scale=1280:-2\" -strict -2 -acodec aac -ab 128k %s -y %s 2>&1|tee %s" % (orid+str(data[2]),vf,orid+str(data[7]),log)
+                else:
+                    strx="ffmpeg -i %s -vcodec libx264 -crf 28 -y -vf \"scale=1280:-2\" -strict -2 -acodec aac -ab 128k %s 2>&1|tee %s" % (orid+str(data[2]),orid+str(data[7]),log)
+                print(strx)
                 upd="UPDATE yunbt_vf SET stime='%d' WHERE vid='%d'" %(int(starttime),data[0])
                 cursor.execute(upd)
                 db.commit()

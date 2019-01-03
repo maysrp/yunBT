@@ -5,7 +5,13 @@
 <meta name="keywords" content=""/>
 <meta name="description" content="">
 <include file="public@head"/>
+<!-- Dplayer -->
+<script src="https://cdn.bootcss.com/hls.js/0.10.1/hls.min.js"></script>
 <script type="text/javascript" src="https://cdn.staticfile.org/clipboard.js/1.5.15/clipboard.min.js"></script>
+<link href="https://cdn.bootcss.com/dplayer/1.25.0/DPlayer.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/dplayer/1.25.0/DPlayer.min.js"></script>
+<!-- Dplayer -->
+
 </head>
 
 <body class="body-white" id="top">
@@ -23,6 +29,7 @@
                 $file=[];
                 $sfile=[];
                 $log=[];
+                $listdir=[];
             </php>
             <volist name='list' id="vo">
                 <tr>
@@ -30,14 +37,15 @@
                         $file[]=$vo['file'];
                         $sfile[]=$vo['mp4'];
                         $log[]='/file/log/'.$vo['vid'].'.log';
+                        $listdir[]=getcwd().$vo['m3u8'];
                     </php>
                     <td>
-                        <p><span value="{$vo.file}" class="view-video" data-toggle="modal" data-target=".modal-view" name="<span class='text-danger'>[原]</span>{$vo.filename}">{$vo.filename}</span></p>
+                        <p><span value="{$vo.file}" class="view-video" data-toggle="modal" data-target=".modal-view" name="<span class='text-danger'>[原]</span>{$vo.filename}" ts=''>{$vo.filename}</span></p>
                     </td>
                     <td class="hidden-xs">{$vo.size|fsize}</td>
                     <td>
                         <if condition='$vo.done gt 0'>
-                                <span value="{$vo.mp4}" class='view-video text-primary' data-toggle="modal" data-target=".modal-view" name="<span class='text-success'>[转]</span>{$vo.filename}">转码完成</span>
+                                <span value="{$vo.mp4}" class='view-video text-primary' data-toggle="modal" data-target=".modal-view" name="<span class='text-success'>[转]</span>{$vo.filename}" ts=''>转码完成</span>
                                 <a class='text-warning' href='/file/log/{$vo.vid}.log'><span class="">日志</span></a>
                         <else/>
                             未开始
@@ -45,10 +53,10 @@
                     </td>
                     <td  class="text-right">
                         <if condition='$vo.done gt 0'>
-                            <span class="btn btn-info glyphicon glyphicon-play view-video" value="{$vo.mp4}" data-toggle="modal" data-target=".modal-view" name="<span class='text-success'>[转]</span>{$vo.filename}"></span>
+                            <span class="btn btn-info glyphicon glyphicon-play view-video" value="{$vo.mp4}" data-toggle="modal" data-target=".modal-view" name="<span class='text-success'>[转]</span>{$vo.filename}" ts='{$vo.m3u8}/index.m3u8'></span>
                             <span class="hidden-xs">{$vo.msize|fsize}</span>
                         <else/>
-                            <span class="btn btn-primary glyphicon glyphicon-play view-video" value="{$vo.file}" data-toggle="modal" data-target=".modal-view" name="<span class='text-success'>[转]</span>{$vo.filename}"></span>
+                            <span class="btn btn-primary glyphicon glyphicon-play view-video" value="{$vo.file}" data-toggle="modal" data-target=".modal-view" name="<span class='text-danger'>[原]</span>{$vo.filename}" ts=''></span>
                             <span class="hidden-xs">未转码</span>
                         </if>
                     </td>
@@ -57,6 +65,7 @@
             {:session('file',$file)}
             {:session('sfile',$sfile)}
             {:session('log',$log)}
+            {:session('listdir',$listdir)}
         </table>
     </div>
     <div class="row text-center">
@@ -70,7 +79,8 @@
                     <h3 class="modal-title"></h3>
                 </div>
                 <div class="modal-body">
-                    <video src="" controls="controls" style='width:100%'></video>
+                    <!-- <video src="" controls="controls" style='width:100%' id='evi' class='hide'></video> -->
+                    <div id="dplayer"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -80,12 +90,29 @@
     </div>
     <script>
         $(".view-video").click(function(){
-            $(".modal-title").html($(this).attr('name'));
-            $("video").attr('src',$(this).attr('value'));
+            var ts=$(this).attr('ts')
+            if(ts.length>10){
+                $(".modal-title").html($(this).attr('name'));
+                dp = new DPlayer({
+                    container: document.getElementById('dplayer'),
+                    video: {
+                        url: ts,
+                        type: 'hls'
+                    }
+                });
+            }else{
+                $(".modal-title").html($(this).attr('name'));
+                dp = new DPlayer({
+                    container: document.getElementById('dplayer'),
+                    video: {
+                        url: $(this).attr('value'),
+                        type: 'hls'
+                    }
+                });
+            }
         })
-        $('.view-video').on('hidden.bs.modal', function (e) {
-        var play=$("video")[0];
-            play.pause();
+        $('.modal-view').on('hidden.bs.modal', function (e) {
+            dp.pause();
         })
         
     </script>

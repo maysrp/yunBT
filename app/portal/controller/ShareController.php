@@ -43,8 +43,8 @@
                     $dir['name']=$share['uname']?$share['uname']:$share['name'];
                     session('save_mid',$share['mid']);
                     session('dir',$dir);//MID
-                    session('mid',$share['mid']);   
-                    redis_dir($dir['dir']);                 
+                    redis_dir($dir['dir']);
+                    session('mid',$share['mid']);                    
                     return $this->fetch('url');
                 }
             }

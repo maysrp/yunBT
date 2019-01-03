@@ -118,7 +118,7 @@ class MagnetController extends AdminBaseController
         $dir['dir']=ROOT_PATH . 'public/file';
         session('dir',$dir);
         $where['del']=0;
-        $info=Db::name('vf')->where($where)->paginate(50);
+        $info=Db::name('vf')->where($where)->order('vid','desc')->paginate(50);
         $this->assign('list',$info);
         return $this->fetch('show_all_videofile');
     }
@@ -158,6 +158,97 @@ class MagnetController extends AdminBaseController
         }
         return $this->error('删除失败');
     }
+    public function logo(){
+        $file = request()->file('logo');
+        if($file){
+            $info = $file->validate(['size'=>'1001024','ext'=>'png,jpg,gif'])->move(ROOT_PATH . 'public/file' . DS . 'logo');
+            if($info){
+                $save=ROOT_PATH . 'public/file' . DS .'logo'.DS.$info->getSaveName();
+                $update['mid']=1;
+                $update['logo']=$save;
+                Db::name('magnet_site')->update($update);
+                $re['status']=true;
+                $re['con']=img_static($save);
+            }else{
+                $re['status']=false;
+            }
+        }else{
+            $re['status']=false;
+        }
+        return json($re);
+    }
+    public function logo_p(){
+        $position=input('param.position/d');
+        $tobo=input('param.tobo/d');
+        $leri=input('param.leri/d');
+        $update['mid']=1;
+        $update['position']=$position;
+        $update['tobo']=$tobo;
+        $update['leri']=$leri;
+        if(Db::name('magnet_site')->update($update)){
+            $re['status']=true;
+        }else{
+            $re['status']=false;
+        }
+        return json($re);
+    }
+    public function ts_start(){
+        $ts=input('param.ts/d');
+        $where['mid']=1;
+        $update['ts']=$ts;
+        if(Db::name('magnet_site')->where($where)->update($update)){
+            $re['status']=true;
+            if($ts){
+                $re['con']='已经设置切片';
+            }else{
+                $re['con']='已经取消切片';
+            }
+        }else{
+            $re['status']=false;
+            $re['con']='error';
+        }
+        return json($re);
+    }
+    public function ts_time(){
+        $tstime=input('param.tstime/d');
+        $where['mid']=1;
+        $update['tstime']=$tstime>2?$tstime:2;
+        if(Db::name('magnet_site')->where($where)->update($update)){
+            $re['status']=true;
+            $re['con']='已经设置切片时长'.$update['tstime'].'秒';
+        }else{
+            $re['status']=false;
+            $re['con']='error';
+        }
+        return json($re);
+    }
+    public function logo_start(){
+        $water=input('param.water/d');
+        $where['mid']=1;
+        $info=Db::name('magnet_site')->where($where)->find();
+        if($water){
+            if(!is_file($info['logo'])){
+                $re['status']=false;
+                $re['con']='请先设置水印图片';
+                return json($re);
+            }
+        }
+        $update['water']=$water;
+        if(Db::name('magnet_site')->where($where)->update($update)){
+            $re['status']=true;
+            if($water){
+                $re['con']='已经设置水印';
+            }else{
+                $re['con']='已经取消水印';
+            }
+        }else{
+            $re['status']=false;
+            $re['con']='error';
+
+        }
+        return json($re);
+    }
+    //////////
     public function aria2_force(){
         $info=aria2();
         $result=isset($info['result'])?$info['result']:false;
