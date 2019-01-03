@@ -17,6 +17,10 @@
 ![下载列表](https://i.loli.net/2018/12/23/5c1f95af2e1f8.png)  
 后台转码页面  
 ![后台转码](https://i.loli.net/2018/12/24/5c2060774d0f1.png)
+水印及切片设置  
+![水印设置](https://i.loli.net/2019/01/03/5c2d7041dce4e.png)  
+Dplayer播放器  
+![Dplayer播放器](https://i.loli.net/2019/01/03/5c2d704219f57.png)  
 ## 安装
 
 ### 服务器环境
@@ -157,7 +161,11 @@ cron_move.py
 + 74行:数据库配置  
 
 cron_download.py  
-+ 3行:限制下载最大值[单位GB]默认10GB    
++ 3行:限制下载最大值[单位GB]默认10GB   
+
+cron_m3u8.py  
++ 10行:数据库配置
++ 17行:设置你的web路径[/public]
 
 
 #### 权限修改
@@ -174,6 +182,7 @@ cron_download.py
 */1 * * * * curl http://www.yunbt.net/portal/cron/download
 */3 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_move.py
 */1 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_ffmpeg.py
+*/1 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_m3u8.py
 */30 * * * * python3 /home/wwwroot/www.yunbt.net/python/cron_download.py
 ```  
 请替换其中www.yunbt.net 为你自己的域名  
