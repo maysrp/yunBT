@@ -16,11 +16,13 @@
 下载列表  
 ![下载列表](https://i.loli.net/2018/12/23/5c1f95af2e1f8.png)  
 后台转码页面  
-![后台转码](https://i.loli.net/2018/12/24/5c2060774d0f1.png)
+![后台转码](https://i.loli.net/2018/12/24/5c2060774d0f1.png)  
 水印及切片设置  
 ![水印设置](https://i.loli.net/2019/01/03/5c2d7041dce4e.png)  
 Dplayer播放器  
 ![Dplayer播放器](https://i.loli.net/2019/01/03/5c2d704219f57.png)  
+
+
 ## 安装
 
 ### 服务器环境
@@ -197,7 +199,8 @@ cron_m3u8.py
 
 
 
-##未来计划
+## 未来计划  
+
 目前功能：
 - 添加用户下载量
 - 下载管理
